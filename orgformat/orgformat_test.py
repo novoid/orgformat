@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: <2019-10-30 16:35:37 vk>
+# Time-stamp: <2019-10-30 16:50:26 vk>
 
 import unittest
 import time
 import datetime
 import os
-from memacs.lib.orgformat import OrgFormat
+from orgformat import OrgFormat
 
 
 class TestOrgFormat(unittest.TestCase):

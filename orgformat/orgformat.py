@@ -5,7 +5,7 @@
 # This file is originally from Memacs
 # https://github.com/novoid/Memacs
 # and was written mainly by https://github.com/awieser
-# see: https://github.com/novoid/Memacs/blob/master/orgformat/orgformat.py
+# see: https://github.com/novoid/Memacs/blob/master/memacs/lib/orgformat.py
 # for unit tests, see: https://github.com/novoid/Memacs/blob/master/memacs/lib/tests/orgformat_test.py
 
 import time
