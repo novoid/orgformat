@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-10-06 11:27:36 vk>
+# Time-stamp: <2019-10-31 00:47:23 vk>
 
-# This file is originally from Memacs
-# https://github.com/novoid/Memacs
-# and was written mainly by https://github.com/awieser
+# This file is originally from Memacs: https://github.com/novoid/Memacs
+# and was initially written mainly by https://github.com/awieser
 # see: https://github.com/novoid/Memacs/blob/master/memacs/lib/orgformat.py
-# for unit tests, see: https://github.com/novoid/Memacs/blob/master/memacs/lib/tests/orgformat_test.py
+#
+# As of 2019-10-31, this file is moved to a separate library since
+# multiple projects are using its functions such as
+# https://github.com/novoid/lazyblorg
 
 import time
 import datetime
@@ -17,7 +19,7 @@ import re
 
 class TimestampParseException(Exception):
     """
-    Own excption should be raised when
+    Own exception should be raised when
     strptime fails
     """
 
@@ -30,7 +32,7 @@ class TimestampParseException(Exception):
 
 class OrgFormat(object):
     """
-    Class for handle special Org Formats linke link, time
+    Class for handle special Org Formats like link, time
     """
 
     SINGLE_ORGMODE_TIMESTAMP = "([<\[]([12]\d\d\d)-([012345]\d)-([012345]\d) " + \
@@ -97,8 +99,8 @@ class OrgFormat(object):
     def link(link, description=None, replacespaces=True):
         """
         returns string of a link in org-format
-        @param link link to i.e. file
-        @param description optional
+        @param link: link to i.e. file
+        @param description: optional
         @param replacespaces: if True (default), spaces within link are being sanitized
         """
 
