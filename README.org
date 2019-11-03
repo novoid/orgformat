@@ -1,0 +1,50 @@
+* orgformat
+
+This is a utility library for providing functions to generate and
+modify [[https://orgmode.org][Org mode]] syntax elements like [[https://orgmode.org/manual/External-links.html][links]], [[https://orgmode.org/manual/Timestamps.html#Timestamps][time-stamps]], or
+date-stamps.
+
+This file was initially written mainly by https://github.com/awieser
+and was part of [[https://github.com/novoid/Memacs][Memacs]].
+
+As of 2019-10-31, this file is moved to an independent library since
+multiple projects are using its functions such as:
+
+- [[https://github.com/novoid/lazyblorg][lazyblorg]]
+
+** Installation
+
+This tool needs [[http://www.python.org/downloads/][Python 3 to be installed]].
+
+You can install filetags via [[https://packaging.python.org/tutorials/installing-packages/][pip]]:
+
+: pip3 install orgformat
+
+If you are using a project that is referring to orgformat, this
+library usually gets added to the =requirements.txt= file of that
+project and installed when you do invoke:
+
+: pip3 install -r requirements.txt
+
+** Changelog
+
+- 2019-11-03: finished moving from Memacs and lazyblorg to a separate library
+
+** How to Thank Me
+
+I'm glad you like my tools. If you want to support me:
+
+- Send old-fashioned *postcard* per snailmail - I love personal feedback!
+  - see [[http://tinyurl.com/j6w8hyo][my address]]
+- Send feature wishes or improvements as an issue on GitHub
+- Create issues on GitHub for bugs
+- Contribute merge requests for bug fixes
+- Contribute unit tests
+- Check out my other cool [[https://github.com/novoid][projects on GitHub]]
+
+* Local Variables                                                  :noexport:
+# Local Variables:
+# mode: auto-fill
+# mode: flyspell
+# eval: (ispell-change-dictionary "en_US")
+# End:
