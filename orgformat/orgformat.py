@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-10-31 00:47:23 vk>
+# Time-stamp: <2019-11-03 19:08:25 vk>
 
 # This file is originally from Memacs: https://github.com/novoid/Memacs
 # and was initially written mainly by https://github.com/awieser
 # see: https://github.com/novoid/Memacs/blob/master/memacs/lib/orgformat.py
 #
-# As of 2019-10-31, this file is moved to a separate library since
-# multiple projects are using its functions such as
+# As of 2019-10-31, this file is moved to an independent library since
+# multiple projects are using its functions such as:
 # https://github.com/novoid/lazyblorg
 
 import time
@@ -32,7 +32,7 @@ class TimestampParseException(Exception):
 
 class OrgFormat(object):
     """
-    Class for handle special Org Formats like link, time
+    Utility library for providing functions to generate and modify Org mode syntax elements like links, time-stamps, or date-stamps.
     """
 
     SINGLE_ORGMODE_TIMESTAMP = "([<\[]([12]\d\d\d)-([012345]\d)-([012345]\d) " + \
