@@ -6,7 +6,7 @@ date-stamps.
 
 ** Documentation
 
-You can find the [[file:orgformat.html][pydoc documentation in HTML here]].
+You can find the [[http://htmlpreview.github.io/?https://github.com/novoid/orgformat/blob/master/orgformat.html][pydoc documentation in HTML here]].
 
 ** Installation
 
@@ -36,8 +36,8 @@ project and installed when you do invoke:
   - Much [[file:orgformat.html][better documentation]] including examples
   - /Don't worry about these breaking changes/: Memacs and lazyblorg
     (the only projects using this library so far) were adapted
-    accordingly and therefore nobody should be affected so far. *No
-    breaking changes like this in the future.*
+    accordingly and therefore nobody else is affected. *No breaking
+    changes like this in the future.*
 
 ** History
 
