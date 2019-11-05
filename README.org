@@ -25,7 +25,7 @@ project and installed when you do invoke:
 ** Changelog
 
 - 2019-11-03: Finished moving from Memacs and lazyblorg to a separate library
-- FIXXME: ongoing
+- 2019-11-05:
   - [[https://www.python.org/dev/peps/pep-0484/][Python type annotations]] added for [[https://mypy.readthedocs.io/en/latest/index.html][mypy]] checks
   - Refactoring, simplification, unification:
     - more parameters for =show_time= and =inactive=
