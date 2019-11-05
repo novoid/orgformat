@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-11-05 21:37:37 vk>
+# Time-stamp: <2019-11-05 22:01:16 vk>
 
 import time
 import datetime
@@ -40,9 +40,6 @@ class OrgFormat(object):
 
     ORGMODE_TIMESTAMP_RANGE_REGEX = re.compile(
         SINGLE_ORGMODE_TIMESTAMP + "-(-)?" + SINGLE_ORGMODE_TIMESTAMP + "$")
-
-    DATETIME_REGEX = re.compile('[12]\d\d\d-[012345]\d?-([012345]\d?)' + \
-                                '( \d\d?[:.][012345]\d?([:.][012345]\d?)?)?')
 
     ISODATETIME_REGEX = re.compile('([12]\d\d\d-[012345]\d?-([012345]\d?))' + \
                                    '([T ]((\d\d?[:.][012345]\d?)([:.][012345]\d?)?))?')
@@ -344,15 +341,15 @@ class OrgFormat(object):
 
         components = re.match(OrgFormat.ISODATETIME_REGEX, datetime_string)
         if components:
-            if components.group(1) and components.group(4) and components.group(5):
+            if components.group(1) and components.group(5) and components.group(6):
                 # found %Y-%m-%d %H:%M:%S
                 return time.strptime(components.group(1) + 'T' +
                                      components.group(4).replace(':', '.'),
                                      "%Y-%m-%dT%H.%M.%S")
-            if components.group(1) and components.group(3):
+            if components.group(1) and components.group(5):
                 # found %Y-%m-%d %H:%M
                 return time.strptime(components.group(1) + 'T' +
-                                     components.group(4).replace(':', '.'),
+                                     components.group(5).replace(':', '.'),
                                      "%Y-%m-%dT%H.%M")
             elif components.group(1):
                 # found %Y-%m-%d

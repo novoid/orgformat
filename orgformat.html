@@ -11,7 +11,7 @@
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:orgformat/orgformat/orgformat.py">orgformat/orgformat/orgformat.py</a></font></td></tr></table>
     <p><tt>#&nbsp;Find&nbsp;much&nbsp;more&nbsp;example&nbsp;calls&nbsp;in&nbsp;the&nbsp;unit&nbsp;test&nbsp;file&nbsp;orgformat_test.py<br>
 #&nbsp;-*-&nbsp;coding:&nbsp;utf-8;&nbsp;mode:&nbsp;python;&nbsp;-*-<br>
-#&nbsp;Time-stamp:&nbsp;&lt;2019-11-05&nbsp;21:10:09&nbsp;vk&gt;</tt></p>
+#&nbsp;Time-stamp:&nbsp;&lt;2019-11-05&nbsp;22:01:16&nbsp;vk&gt;</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -104,7 +104,7 @@ email&nbsp;address&nbsp;format.<br>
 @param&nbsp;show_time:&nbsp;optional&nbsp;show&nbsp;time<br>
 @param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamp;&nbsp;else&nbsp;use&nbsp;active</tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-daterange"><strong>daterange</strong></a>(begin:time.struct_time, end:time.struct_time, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>returns&nbsp;a&nbsp;date&nbsp;range&nbsp;string<br>
+<dl><dt><a name="OrgFormat-daterange"><strong>daterange</strong></a>(begin:time.struct_time, end:time.struct_time, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;two&nbsp;given&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime&nbsp;to&nbsp;an&nbsp;Org&nbsp;range&nbsp;of&nbsp;date-&nbsp;or&nbsp;time-stamps.<br>
 &nbsp;<br>
 <a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-daterange">daterange</a>(<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-29",&nbsp;"%Y-%m-%d"),<br>
@@ -120,9 +120,10 @@ email&nbsp;address&nbsp;format.<br>
 @param&nbsp;show_time:&nbsp;optional&nbsp;show&nbsp;time<br>
 @param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamps;&nbsp;else&nbsp;return&nbsp;active&nbsp;time-stamps</tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-daterange_autodetect_time"><strong>daterange_autodetect_time</strong></a>(begin_tuple:time.struct_time, end_tuple:time.struct_time, inactive:bool=False) -&gt; str</dt><dd><tt>returns&nbsp;a&nbsp;<a href="#OrgFormat-date">date</a>(time)&nbsp;range&nbsp;string&nbsp;in&nbsp;org&nbsp;format<br>
-if&nbsp;both&nbsp;parameters&nbsp;do&nbsp;not&nbsp;contain&nbsp;time&nbsp;information,<br>
-result&nbsp;is&nbsp;same&nbsp;as&nbsp;daterange,&nbsp;else&nbsp;it&nbsp;is&nbsp;same&nbsp;as&nbsp;datetimerange.<br>
+<dl><dt><a name="OrgFormat-daterange_autodetect_time"><strong>daterange_autodetect_time</strong></a>(begin_tuple:time.struct_time, end_tuple:time.struct_time, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;two&nbsp;given&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime&nbsp;to&nbsp;an&nbsp;Org&nbsp;range&nbsp;of&nbsp;date-&nbsp;or&nbsp;time-stamps.<br>
+&nbsp;<br>
+If&nbsp;both&nbsp;time&nbsp;parameters&nbsp;do&nbsp;not&nbsp;contain&nbsp;time&nbsp;information,<br>
+result&nbsp;is&nbsp;a&nbsp;range&nbsp;of&nbsp;dates,&nbsp;else&nbsp;it&nbsp;results&nbsp;in&nbsp;time-ranges.<br>
 &nbsp;<br>
 <a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-daterange_autodetect_time">daterange_autodetect_time</a>(<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-29",&nbsp;"%Y-%m-%d"),<br>
@@ -236,7 +237,7 @@ with&nbsp;a&nbsp;missing&nbsp;day&nbsp;of&nbsp;week&nbsp;is&nbsp;accepted&nbsp;a
 @param&nbsp;orgtime:&nbsp;'&lt;YYYY-MM-DD&nbsp;Sun&nbsp;HH:MM&gt;'&nbsp;or&nbsp;an&nbsp;inactive&nbsp;one<br>
 @param&nbsp;return:&nbsp;date&nbsp;time&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-strdate"><strong>strdate</strong></a>(date_string:str, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>returns&nbsp;a&nbsp;date&nbsp;string&nbsp;in&nbsp;org&nbsp;format<br>
+<dl><dt><a name="OrgFormat-strdate"><strong>strdate</strong></a>(date_string:str, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;ISO&nbsp;8601&nbsp;like&nbsp;time-&nbsp;or&nbsp;date-stamp&nbsp;into&nbsp;a&nbsp;time-&nbsp;or&nbsp;date-stamp&nbsp;in&nbsp;org&nbsp;format.<br>
 &nbsp;<br>
 <a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-strdate">strdate</a>('2011-11-3')<br>
 -&gt;&nbsp;'&lt;2011-11-03&nbsp;Thu&gt;'<br>
@@ -247,16 +248,6 @@ with&nbsp;a&nbsp;missing&nbsp;day&nbsp;of&nbsp;week&nbsp;is&nbsp;accepted&nbsp;a
 @param&nbsp;date-string:&nbsp;has&nbsp;to&nbsp;be&nbsp;a&nbsp;str&nbsp;of&nbsp;the&nbsp;required&nbsp;format:&nbsp;'%Y-%M-%D&nbsp;(%H:%M(:%S))'<br>
 @param&nbsp;show_time:&nbsp;optional&nbsp;show&nbsp;time<br>
 @param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamp;&nbsp;else&nbsp;use&nbsp;active</tt></dd></dl>
-
-<dl><dt><a name="OrgFormat-strdatetimeiso8601"><strong>strdatetimeiso8601</strong></a>(datetime_string:str) -&gt; str</dt><dd><tt>returns&nbsp;a&nbsp;date&nbsp;string&nbsp;in&nbsp;org&nbsp;format<br>
-&nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-strdatetimeiso8601">strdatetimeiso8601</a>('2011-11-30T21.06')<br>
--&gt;&nbsp;'&lt;2011-11-30&nbsp;Wed&nbsp;21:06&gt;'<br>
-&nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-strdatetimeiso8601">strdatetimeiso8601</a>('2011-11-30T21.06.02')<br>
--&gt;&nbsp;'&lt;2011-11-30&nbsp;Wed&nbsp;21:06&gt;'<br>
-&nbsp;<br>
-@param&nbsp;date-string:&nbsp;has&nbsp;to&nbsp;be&nbsp;a&nbsp;str&nbsp;in&nbsp;format:&nbsp;YYYY-MM-DD([T&nbsp;]HH[.:]MM([.:]SS)?)?</tt></dd></dl>
 
 <dl><dt><a name="OrgFormat-struct_time_to_datetime"><strong>struct_time_to_datetime</strong></a>(tuple_date:time.struct_time) -&gt; datetime.datetime</dt><dd><tt>Converts&nbsp;a&nbsp;time.struct_time&nbsp;argument&nbsp;to&nbsp;a&nbsp;datetime.datetime&nbsp;<a href="builtins.html#object">object</a><br>
 &nbsp;<br>
@@ -275,9 +266,7 @@ Data descriptors defined here:<br>
 </dl>
 <hr>
 Data and other attributes defined here:<br>
-<dl><dt><strong>DATETIME_REGEX</strong> = re.compile('[12]\\d\\d\\d-[012345]\\d?-([012345]...)( \\d\\d?[:.][012345]\\d?([:.][012345]\\d?)?)?')</dl>
-
-<dl><dt><strong>ISODATETIME_REGEX</strong> = re.compile('([12]\\d\\d\\d-[012345]\\d?-([012345...](\\d\\d?[:.][012345]\\d?([:.][012345]\\d?)?))?')</dl>
+<dl><dt><strong>ISODATETIME_REGEX</strong> = re.compile('([12]\\d\\d\\d-[012345]\\d?-([012345...(\\d\\d?[:.][012345]\\d?)([:.][012345]\\d?)?))?')</dl>
 
 <dl><dt><strong>ORGMODE_TIMESTAMP_RANGE_REGEX</strong> = re.compile('([&lt;\\[]([12]\\d\\d\\d)-([012345]\\d)...23)):([012345]\\d)[&gt;\\]])-(-)?([&lt;\\[]([12]\\d\\d)</dl>
 

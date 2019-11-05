@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: <2019-11-05 21:36:39 vk>
+# Time-stamp: <2019-11-05 21:54:22 vk>
 
 import unittest
 import time
@@ -230,26 +230,8 @@ class TestOrgFormat(unittest.TestCase):
 #
 #        self.assertEqual(OrgFormat.strdatetimeiso8601('2011-11-30T21.06'),
 #                         '<2011-11-30 Wed 21:06>')
-#
-#        self.assertEqual(OrgFormat.strdatetimeiso8601('2011-11-30T21.06.00'),
-#                         '<2011-11-30 Wed 21:06>')
-#
-#        self.assertEqual(OrgFormat.strdatetimeiso8601('2011-11-30T21.06.02'),
-#                         '<2011-11-30 Wed 21:06>')
-#
-#        self.assertEqual(OrgFormat.strdatetimeiso8601('1899-12-30T21.06.02'),
-#                         '<1899-12-30 Sat 21:06>')
-#
-#        self.assertEqual(OrgFormat.strdatetimeiso8601('2011-11-30 21.06'),
-#                         '<2011-11-30 Wed 21:06>')
-#
-#        self.assertEqual(OrgFormat.strdatetimeiso8601('2011-11-30 21.06.02'),
-#                         '<2011-11-30 Wed 21:06>')
-#
-#        self.assertEqual(OrgFormat.strdatetimeiso8601('2011-11-30 21:06:02'),
-#                         '<2011-11-30 Wed 21:06>')
-#
-#        self.assertEqual(OrgFormat.strdatetimeiso8601('2011-11-30 21:06'),
+#        REPLACED BY:
+#        self.assertEqual(OrgFormat.strdate('2011-11-30T21.06', show_time=True),
 #                         '<2011-11-30 Wed 21:06>')
 
     def test_datetimetupleiso8601(self):
