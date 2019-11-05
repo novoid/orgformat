@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: <2019-11-05 21:54:22 vk>
+# Time-stamp: <2019-11-05 22:15:55 vk>
 
 import unittest
 import time
@@ -226,80 +226,72 @@ class TestOrgFormat(unittest.TestCase):
         self.assertEqual(OrgFormat.strdate('2011-11-30 21:06', show_time=True),
                          '<2011-11-30 Wed 21:06>')
 
-#    def test_strdatetimeiso8601(self):
-#
-#        self.assertEqual(OrgFormat.strdatetimeiso8601('2011-11-30T21.06'),
-#                         '<2011-11-30 Wed 21:06>')
-#        REPLACED BY:
-#        self.assertEqual(OrgFormat.strdate('2011-11-30T21.06', show_time=True),
-#                         '<2011-11-30 Wed 21:06>')
-
-    def test_datetimetupleiso8601(self):
+    def test_parse_extended_iso_datetime(self):
 
         # NOTE: time.strptime() returns a time.struct_time
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2"),
                          time.strptime('2011-01-02', '%Y-%m-%d'))
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2T3.4"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2T3.4"),
                          time.strptime('2011-01-02 03.04', '%Y-%m-%d %H.%M'))
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2T3.4.5"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2T3.4.5"),
                          time.strptime('2011-01-02 03.04.05', '%Y-%m-%d %H.%M.%S'))
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2T3:4"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2T3:4"),
                          time.strptime('2011-01-02 03.04', '%Y-%m-%d %H.%M'))
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2T3:4:5"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2T3:4:5"),
                          time.strptime('2011-01-02 03.04.05', '%Y-%m-%d %H.%M.%S'))
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2 3:4"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2 3:4"),
                          time.strptime('2011-01-02 03.04', '%Y-%m-%d %H.%M'))
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2 3:4:5"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2 3:4:5"),
                          time.strptime('2011-01-02 03.04.05', '%Y-%m-%d %H.%M.%S'))
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2 3.4"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2 3.4"),
                          time.strptime('2011-01-02 03.04', '%Y-%m-%d %H.%M'))
 
-        self.assertEqual(OrgFormat.datetimetupleiso8601("2011-1-2 3.4.5"),
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2 3.4.5"),
                          time.strptime('2011-01-02 03.04.05', '%Y-%m-%d %H.%M.%S'))
 
-    def test_datetupleutctimestamp(self):
+    def test_parse_basic_iso_datetime(self):
 
         os.environ['TZ'] = "Europe/Vienna"
         time.tzset()
 
         self.assertEqual(
             OrgFormat.date(
-                OrgFormat.datetupleutctimestamp('20111219T205510Z'), True
+                OrgFormat.parse_basic_iso_datetime('20111219T205510Z'), True
             ),
             '<2011-12-19 Mon 21:55>'
         )
 
         self.assertEqual(
             OrgFormat.date(
-                OrgFormat.datetupleutctimestamp('20111219T205510'),
+                OrgFormat.parse_basic_iso_datetime('20111219T205510'),
                 True
             ),
             '<2011-12-19 Mon 20:55>')
 
         self.assertEqual(
-            OrgFormat.date(OrgFormat.datetupleutctimestamp('20111219'), False),
+            OrgFormat.date(OrgFormat.parse_basic_iso_datetime('20111219'), False),
             '<2011-12-19 Mon>'
         )
 
         self.assertEqual(
-            OrgFormat.date(OrgFormat.datetupleutctimestamp('18991230'), False),
+            OrgFormat.date(OrgFormat.parse_basic_iso_datetime('18991230'), False),
             '<1899-12-30 Sat>'
         )
 
         with self.assertRaises(TimestampParseException):
-            OrgFormat.datetupleutctimestamp('foobar')
+            OrgFormat.parse_basic_iso_datetime('foobar')
         with self.assertRaises(TimestampParseException):
-            OrgFormat.datetupleutctimestamp('20111219x205510Z')
+            OrgFormat.parse_basic_iso_datetime('20111219x205510Z')
         with self.assertRaises(TimestampParseException):
-            OrgFormat.datetupleutctimestamp('20111319')
+            OrgFormat.parse_basic_iso_datetime('20111319')
 
     def test_link(self):
         self.assertEqual(OrgFormat.link('foo/bar'),
@@ -313,15 +305,15 @@ class TestOrgFormat(unittest.TestCase):
         self.assertEqual(OrgFormat.link('file:foo/bar/some file.pdf', 'my description', replacespaces=False),
                          '[[file:foo/bar/some file.pdf][my description]]')
 
-    def test_contact_mail_mailto_link(self):
+    def test_mailto_link(self):
 
-        self.assertEqual(OrgFormat.contact_mail_mailto_link('Bob Bobby <bob.bobby@example.com>'),
+        self.assertEqual(OrgFormat.mailto_link('Bob Bobby <bob.bobby@example.com>'),
                          '[[mailto:bob.bobby@example.com][Bob Bobby]]')
-        self.assertEqual(OrgFormat.contact_mail_mailto_link('<Bob@example.com>'),
+        self.assertEqual(OrgFormat.mailto_link('<Bob@example.com>'),
                          '[[mailto:Bob@example.com][Bob@example.com]]')
-        self.assertEqual(OrgFormat.contact_mail_mailto_link('Bob@example.com'),
+        self.assertEqual(OrgFormat.mailto_link('Bob@example.com'),
                          '[[mailto:Bob@example.com][Bob@example.com]]')
-        self.assertEqual(OrgFormat.contact_mail_mailto_link('foo bar'),
+        self.assertEqual(OrgFormat.mailto_link('foo bar'),
                          '[[mailto:foo bar][foo bar]]')
 
     def test_newsgroup_link(self):
@@ -333,18 +325,18 @@ class TestOrgFormat(unittest.TestCase):
         with self.assertRaises(AssertionError):
             OrgFormat.newsgroup_link('')
 
-    def test_get_hms_from_sec(self):
+    def test_hms_from_sec(self):
 
-        self.assertEqual(OrgFormat.get_hms_from_sec(123), '0:02:03')
-        self.assertEqual(OrgFormat.get_hms_from_sec(9999), '2:46:39')
-        self.assertEqual(OrgFormat.get_hms_from_sec(9999999), '2777:46:39')
+        self.assertEqual(OrgFormat.hms_from_sec(123), '0:02:03')
+        self.assertEqual(OrgFormat.hms_from_sec(9999), '2:46:39')
+        self.assertEqual(OrgFormat.hms_from_sec(9999999), '2777:46:39')
 
-    def test_get_dhms_from_sec(self):
+    def test_dhms_from_sec(self):
 
-        self.assertEqual(OrgFormat.get_dhms_from_sec(123), '0:02:03')
-        self.assertEqual(OrgFormat.get_dhms_from_sec(9999), '2:46:39')
-        self.assertEqual(OrgFormat.get_dhms_from_sec(99999), '1d 3:46:39')
-        self.assertEqual(OrgFormat.get_dhms_from_sec(12345678), '142d 21:21:18')
+        self.assertEqual(OrgFormat.dhms_from_sec(123), '0:02:03')
+        self.assertEqual(OrgFormat.dhms_from_sec(9999), '2:46:39')
+        self.assertEqual(OrgFormat.dhms_from_sec(99999), '1d 3:46:39')
+        self.assertEqual(OrgFormat.dhms_from_sec(12345678), '142d 21:21:18')
 
     #def test_(self):
         #self.assertEqual(OrgFormat.

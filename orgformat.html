@@ -11,7 +11,7 @@
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:orgformat/orgformat/orgformat.py">orgformat/orgformat/orgformat.py</a></font></td></tr></table>
     <p><tt>#&nbsp;Find&nbsp;much&nbsp;more&nbsp;example&nbsp;calls&nbsp;in&nbsp;the&nbsp;unit&nbsp;test&nbsp;file&nbsp;orgformat_test.py<br>
 #&nbsp;-*-&nbsp;coding:&nbsp;utf-8;&nbsp;mode:&nbsp;python;&nbsp;-*-<br>
-#&nbsp;Time-stamp:&nbsp;&lt;2019-11-05&nbsp;22:01:16&nbsp;vk&gt;</tt></p>
+#&nbsp;Time-stamp:&nbsp;&lt;2019-11-05&nbsp;22:19:15&nbsp;vk&gt;</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -73,25 +73,6 @@ FIXXME:&nbsp;implement&nbsp;support&nbsp;for&nbsp;inactive&nbsp;date/time&nbsp;r
 @param&nbsp;deltahours:&nbsp;integer/float&nbsp;like,&nbsp;e.g.,&nbsp;3&nbsp;or&nbsp;-2.5&nbsp;(in&nbsp;hours)<br>
 @param&nbsp;return:&nbsp;'&lt;YYYY-MM-DD&nbsp;Sun&nbsp;HH:MM&gt;'</tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-contact_mail_mailto_link"><strong>contact_mail_mailto_link</strong></a>(contact_mail_string:str) -&gt; str</dt><dd><tt>Takes&nbsp;an&nbsp;email&nbsp;address&nbsp;within&nbsp;optional&nbsp;angle&nbsp;brackets&nbsp;and<br>
-optional&nbsp;name&nbsp;and&nbsp;generates&nbsp;an&nbsp;Org&nbsp;mode&nbsp;mailto&nbsp;email&nbsp;link.<br>
-&nbsp;<br>
--&nbsp;"Bob&nbsp;Bobby&nbsp;&lt;bob.bobby@example.com&gt;"&nbsp;or<br>
--&nbsp;&lt;Bob@example.com&gt;"&nbsp;or<br>
--&nbsp;Bob@example.com<br>
-&nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-contact_mail_mailto_link">contact_mail_mailto_link</a>('Bob&nbsp;Bobby&nbsp;&lt;bob.bobby@example.com&gt;'<br>
--&gt;&nbsp;'[[mailto:bob.bobby@example.com][Bob&nbsp;Bobby]]'<br>
-&nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-contact_mail_mailto_link">contact_mail_mailto_link</a>('&lt;Bob@example.com&gt;'<br>
--&gt;&nbsp;'[[mailto:Bob@example.com][Bob@example.com]]'<br>
-&nbsp;<br>
-Note&nbsp;that&nbsp;there&nbsp;is&nbsp;no&nbsp;check&nbsp;on&nbsp;the&nbsp;validy&nbsp;of&nbsp;the<br>
-email&nbsp;address&nbsp;format.<br>
-&nbsp;<br>
-@param&nbsp;contact_mailto_string:&nbsp;the&nbsp;email&nbsp;information&nbsp;of&nbsp;a&nbsp;contact<br>
-@return:&nbsp;Org&nbsp;mode&nbsp;mailto&nbsp;email&nbsp;link</tt></dd></dl>
-
 <dl><dt><a name="OrgFormat-date"><strong>date</strong></a>(tuple_date:Union[time.struct_time, datetime.datetime], show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;given&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime&nbsp;to&nbsp;an&nbsp;Org&nbsp;date-&nbsp;or&nbsp;time-stamp.<br>
 &nbsp;<br>
 <a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-date">date</a>(time.strptime("2011-11-02T20:38:42",&nbsp;"%Y-%m-%dT%H:%M:%S"))<br>
@@ -146,29 +127,18 @@ result&nbsp;is&nbsp;a&nbsp;range&nbsp;of&nbsp;dates,&nbsp;else&nbsp;it&nbsp;resu
 returns&nbsp;time.struct_time&nbsp;which&nbsp;was&nbsp;generated&nbsp;from&nbsp;the&nbsp;datetime.datetime&nbsp;parameter<br>
 @param&nbsp;datetime&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-datetimetupleiso8601"><strong>datetimetupleiso8601</strong></a>(datetime_string:str) -&gt; time.struct_time</dt><dd><tt>returns&nbsp;a&nbsp;time_tuple<br>
+<dl><dt><a name="OrgFormat-dhms_from_sec"><strong>dhms_from_sec</strong></a>(sec:int) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;of&nbsp;days&nbsp;hours:minutes:seconds&nbsp;(like<br>
+"9d&nbsp;13:59:59")&nbsp;from&nbsp;the&nbsp;seconds&nbsp;given.&nbsp;If&nbsp;days&nbsp;is&nbsp;zero,&nbsp;omit<br>
+the&nbsp;part&nbsp;of&nbsp;the&nbsp;days&nbsp;(like&nbsp;"13:59:59").<br>
 &nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetimetupleiso8601">datetimetupleiso8601</a>("2011-1-2")<br>
--&gt;&nbsp;time.strptime('2011-01-02',&nbsp;'%Y-%m-%d')<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-dhms_from_sec">dhms_from_sec</a>(123)<br>
+-&gt;&nbsp;'0:02:03'<br>
 &nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetimetupleiso8601">datetimetupleiso8601</a>("2011-1-2T3.4.5")<br>
--&gt;&nbsp;time.strptime('2011-01-02&nbsp;03.04.05',&nbsp;'%Y-%m-%d&nbsp;%H.%M.%S')<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-dhms_from_sec">dhms_from_sec</a>(99999)<br>
+-&gt;&nbsp;'1d&nbsp;3:46:39'<br>
 &nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetimetupleiso8601">datetimetupleiso8601</a>("2011-1-2&nbsp;3:4")<br>
--&gt;&nbsp;time.strptime('2011-01-02&nbsp;03.04',&nbsp;'%Y-%m-%d&nbsp;%H.%M')<br>
-&nbsp;<br>
-@param&nbsp;datetime_string:&nbsp;YYYY-MM-DD([T&nbsp;]HH[.:]MM([.:]SS)?)?</tt></dd></dl>
-
-<dl><dt><a name="OrgFormat-datetupleutctimestamp"><strong>datetupleutctimestamp</strong></a>(datetime_string:str) -&gt; time.struct_time</dt><dd><tt>returns&nbsp;a&nbsp;time_tuple<br>
-&nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-date">date</a>(<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetupleutctimestamp">datetupleutctimestamp</a>('20111219T205510Z'),&nbsp;True<br>
-&nbsp;&nbsp;&nbsp;&nbsp;)<br>
--&gt;&nbsp;'&lt;2011-12-19&nbsp;Mon&nbsp;21:55&gt;'&nbsp;&nbsp;(for&nbsp;TZ&nbsp;==&nbsp;"Europe/Vienna")<br>
-&nbsp;<br>
-@param&nbsp;datetime_string:&nbsp;YYYYMMDDTHHMMSSZ&nbsp;or<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YYYYMMDDTHHMMSS&nbsp;or<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YYYYMMDD</tt></dd></dl>
+@param&nbsp;sec:&nbsp;seconds<br>
+@param&nbsp;return:&nbsp;xd&nbsp;h:mm:ss&nbsp;as&nbsp;string</tt></dd></dl>
 
 <dl><dt><a name="OrgFormat-fix_struct_time_wday"><strong>fix_struct_time_wday</strong></a>(tuple_date:time.struct_time) -&gt; time.struct_time</dt><dd><tt>Correcting&nbsp;the&nbsp;given&nbsp;time.struct_time&nbsp;with&nbsp;the&nbsp;correct&nbsp;day&nbsp;of&nbsp;the&nbsp;week.<br>
 &nbsp;<br>
@@ -178,22 +148,9 @@ returns&nbsp;time.struct_time&nbsp;which&nbsp;was&nbsp;generated&nbsp;from&nbsp;
 returns&nbsp;struct_time&nbsp;timestamp&nbsp;with&nbsp;correct&nbsp;day&nbsp;of&nbsp;week<br>
 @param&nbsp;struct_time&nbsp;with&nbsp;potential&nbsp;false&nbsp;day&nbsp;of&nbsp;week</tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-get_dhms_from_sec"><strong>get_dhms_from_sec</strong></a>(sec:int) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;of&nbsp;days&nbsp;hours:minutes:seconds&nbsp;(like<br>
-"9d&nbsp;13:59:59")&nbsp;from&nbsp;the&nbsp;seconds&nbsp;given.&nbsp;If&nbsp;days&nbsp;is&nbsp;zero,&nbsp;omit<br>
-the&nbsp;part&nbsp;of&nbsp;the&nbsp;days&nbsp;(like&nbsp;"13:59:59").<br>
+<dl><dt><a name="OrgFormat-hms_from_sec"><strong>hms_from_sec</strong></a>(sec:int) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;of&nbsp;hours:minutes:seconds&nbsp;from&nbsp;the&nbsp;seconds&nbsp;given.<br>
 &nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-get_dhms_from_sec">get_dhms_from_sec</a>(123)<br>
--&gt;&nbsp;'0:02:03'<br>
-&nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-get_dhms_from_sec">get_dhms_from_sec</a>(99999)<br>
--&gt;&nbsp;'1d&nbsp;3:46:39'<br>
-&nbsp;<br>
-@param&nbsp;sec:&nbsp;seconds<br>
-@param&nbsp;return:&nbsp;xd&nbsp;h:mm:ss&nbsp;as&nbsp;string</tt></dd></dl>
-
-<dl><dt><a name="OrgFormat-get_hms_from_sec"><strong>get_hms_from_sec</strong></a>(sec:int) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;of&nbsp;hours:minutes:seconds&nbsp;from&nbsp;the&nbsp;seconds&nbsp;given.<br>
-&nbsp;<br>
-<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-get_hms_from_sec">get_hms_from_sec</a>(9999)<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-hms_from_sec">hms_from_sec</a>(9999)<br>
 -&gt;&nbsp;'2:46:39'<br>
 &nbsp;<br>
 @param&nbsp;sec:&nbsp;seconds<br>
@@ -216,6 +173,25 @@ FIXXME:&nbsp;rename&nbsp;to&nbsp;a&nbsp;better&nbsp;function&nbsp;name<br>
 @param&nbsp;description:&nbsp;optional<br>
 @param&nbsp;replacespaces:&nbsp;if&nbsp;True&nbsp;(default),&nbsp;spaces&nbsp;within&nbsp;link&nbsp;are&nbsp;being&nbsp;sanitized</tt></dd></dl>
 
+<dl><dt><a name="OrgFormat-mailto_link"><strong>mailto_link</strong></a>(contact_mail_string:str) -&gt; str</dt><dd><tt>Takes&nbsp;an&nbsp;email&nbsp;address&nbsp;within&nbsp;optional&nbsp;angle&nbsp;brackets&nbsp;and<br>
+optional&nbsp;name&nbsp;and&nbsp;generates&nbsp;an&nbsp;Org&nbsp;mode&nbsp;mailto&nbsp;email&nbsp;link.<br>
+&nbsp;<br>
+-&nbsp;"Bob&nbsp;Bobby&nbsp;&lt;bob.bobby@example.com&gt;"&nbsp;or<br>
+-&nbsp;&lt;Bob@example.com&gt;"&nbsp;or<br>
+-&nbsp;Bob@example.com<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-mailto_link">mailto_link</a>('Bob&nbsp;Bobby&nbsp;&lt;bob.bobby@example.com&gt;'<br>
+-&gt;&nbsp;'[[mailto:bob.bobby@example.com][Bob&nbsp;Bobby]]'<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-mailto_link">mailto_link</a>('&lt;Bob@example.com&gt;'<br>
+-&gt;&nbsp;'[[mailto:Bob@example.com][Bob@example.com]]'<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;there&nbsp;is&nbsp;no&nbsp;check&nbsp;on&nbsp;the&nbsp;validy&nbsp;of&nbsp;the<br>
+email&nbsp;address&nbsp;format.<br>
+&nbsp;<br>
+@param&nbsp;contact_mailto_string:&nbsp;the&nbsp;email&nbsp;information&nbsp;of&nbsp;a&nbsp;contact<br>
+@return:&nbsp;Org&nbsp;mode&nbsp;mailto&nbsp;email&nbsp;link</tt></dd></dl>
+
 <dl><dt><a name="OrgFormat-newsgroup_link"><strong>newsgroup_link</strong></a>(newsgroup_string:str) -&gt; str</dt><dd><tt><a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-newsgroup_link">newsgroup_link</a>('foo')<br>
 -&gt;&nbsp;'[[news:foo][foo]]'<br>
 &nbsp;<br>
@@ -236,6 +212,31 @@ with&nbsp;a&nbsp;missing&nbsp;day&nbsp;of&nbsp;week&nbsp;is&nbsp;accepted&nbsp;a
 &nbsp;<br>
 @param&nbsp;orgtime:&nbsp;'&lt;YYYY-MM-DD&nbsp;Sun&nbsp;HH:MM&gt;'&nbsp;or&nbsp;an&nbsp;inactive&nbsp;one<br>
 @param&nbsp;return:&nbsp;date&nbsp;time&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-parse_basic_iso_datetime"><strong>parse_basic_iso_datetime</strong></a>(datetime_string:str) -&gt; time.struct_time</dt><dd><tt>Converts&nbsp;an&nbsp;ISO&nbsp;8601&nbsp;basic&nbsp;format&nbsp;string&nbsp;with&nbsp;am&nbsp;optional&nbsp;trailing&nbsp;UTC<br>
+zone&nbsp;designator&nbsp;('Z')&nbsp;into&nbsp;a&nbsp;time.struct_time.<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-date">date</a>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-parse_basic_iso_datetime">parse_basic_iso_datetime</a>('20111219T205510Z'),&nbsp;True<br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+-&gt;&nbsp;'&lt;2011-12-19&nbsp;Mon&nbsp;21:55&gt;'&nbsp;&nbsp;(for&nbsp;TZ&nbsp;==&nbsp;"Europe/Vienna")<br>
+&nbsp;<br>
+@param&nbsp;datetime_string:&nbsp;YYYYMMDDTHHMMSSZ&nbsp;or<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YYYYMMDDTHHMMSS&nbsp;or<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YYYYMMDD</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-parse_extended_iso_datetime"><strong>parse_extended_iso_datetime</strong></a>(datetime_string:str) -&gt; time.struct_time</dt><dd><tt>Parses&nbsp;any&nbsp;string&nbsp;containing&nbsp;date&nbsp;or&nbsp;time&nbsp;and&nbsp;return&nbsp;it&nbsp;as&nbsp;time.struct_time.<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-parse_extended_iso_datetime">parse_extended_iso_datetime</a>("2011-1-2")<br>
+-&gt;&nbsp;time.strptime('2011-01-02',&nbsp;'%Y-%m-%d')<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-parse_extended_iso_datetime">parse_extended_iso_datetime</a>("2011-1-2T3.4.5")<br>
+-&gt;&nbsp;time.strptime('2011-01-02&nbsp;03.04.05',&nbsp;'%Y-%m-%d&nbsp;%H.%M.%S')<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-parse_extended_iso_datetime">parse_extended_iso_datetime</a>("2011-1-2&nbsp;3:4")<br>
+-&gt;&nbsp;time.strptime('2011-01-02&nbsp;03.04',&nbsp;'%Y-%m-%d&nbsp;%H.%M')<br>
+&nbsp;<br>
+@param&nbsp;datetime_string:&nbsp;YYYY-MM-DD([T&nbsp;]HH[.:]MM([.:]SS)?)?</tt></dd></dl>
 
 <dl><dt><a name="OrgFormat-strdate"><strong>strdate</strong></a>(date_string:str, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;ISO&nbsp;8601&nbsp;like&nbsp;time-&nbsp;or&nbsp;date-stamp&nbsp;into&nbsp;a&nbsp;time-&nbsp;or&nbsp;date-stamp&nbsp;in&nbsp;org&nbsp;format.<br>
 &nbsp;<br>

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-11-05 22:01:16 vk>
+# Time-stamp: <2019-11-05 22:19:15 vk>
 
 import time
 import datetime
@@ -318,21 +318,21 @@ class OrgFormat(object):
 #        @param date-string: has to be a str in format: YYYY-MM-DD([T ]HH[.:]MM([.:]SS)?)?
 #        """
 #        assert isinstance(datetime_string, str)
-#        tuple_date = OrgFormat.datetimetupleiso8601(datetime_string)
+#        tuple_date = OrgFormat.parse_extended_iso_datetime(datetime_string)
 #        return OrgFormat.date(tuple_date, show_time=True)
 
     @staticmethod
-    def datetimetupleiso8601(datetime_string: str) -> time.struct_time:
+    def parse_extended_iso_datetime(datetime_string: str) -> time.struct_time:
         """
-        returns a time_tuple
+        Parses any string containing date or time and return it as time.struct_time.
 
-        OrgFormat.datetimetupleiso8601("2011-1-2")
+        OrgFormat.parse_extended_iso_datetime("2011-1-2")
         -> time.strptime('2011-01-02', '%Y-%m-%d')
 
-        OrgFormat.datetimetupleiso8601("2011-1-2T3.4.5")
+        OrgFormat.parse_extended_iso_datetime("2011-1-2T3.4.5")
         -> time.strptime('2011-01-02 03.04.05', '%Y-%m-%d %H.%M.%S')
 
-        OrgFormat.datetimetupleiso8601("2011-1-2 3:4")
+        OrgFormat.parse_extended_iso_datetime("2011-1-2 3:4")
         -> time.strptime('2011-01-02 03.04', '%Y-%m-%d %H.%M')
 
         @param datetime_string: YYYY-MM-DD([T ]HH[.:]MM([.:]SS)?)?
@@ -361,12 +361,13 @@ class OrgFormat(object):
         assert False  # to satisfy mypy 0.740: "Missing return statement"
 
     @staticmethod
-    def datetupleutctimestamp(datetime_string: str) -> time.struct_time:
+    def parse_basic_iso_datetime(datetime_string: str) -> time.struct_time:
         """
-        returns a time_tuple
+        Converts an ISO 8601 basic format string with am optional trailing UTC
+        zone designator ('Z') into a time.struct_time.
 
         OrgFormat.date(
-                OrgFormat.datetupleutctimestamp('20111219T205510Z'), True
+                OrgFormat.parse_basic_iso_datetime('20111219T205510Z'), True
             )
         -> '<2011-12-19 Mon 21:55>'  (for TZ == "Europe/Vienna")
 
@@ -438,7 +439,7 @@ class OrgFormat(object):
             return "[[" + link + "]]"
 
     @staticmethod
-    def contact_mail_mailto_link(contact_mail_string: str) -> str:
+    def mailto_link(contact_mail_string: str) -> str:
         """
         Takes an email address within optional angle brackets and
         optional name and generates an Org mode mailto email link.
@@ -447,10 +448,10 @@ class OrgFormat(object):
         - <Bob@example.com>" or
         - Bob@example.com
 
-        OrgFormat.contact_mail_mailto_link('Bob Bobby <bob.bobby@example.com>'
+        OrgFormat.mailto_link('Bob Bobby <bob.bobby@example.com>'
         -> '[[mailto:bob.bobby@example.com][Bob Bobby]]'
 
-        OrgFormat.contact_mail_mailto_link('<Bob@example.com>'
+        OrgFormat.mailto_link('<Bob@example.com>'
         -> '[[mailto:Bob@example.com][Bob@example.com]]'
 
         Note that there is no check on the validy of the
@@ -496,11 +497,11 @@ class OrgFormat(object):
                               replacespaces=False)
 
     @staticmethod
-    def get_hms_from_sec(sec: int) -> str:
+    def hms_from_sec(sec: int) -> str:
         """
         Returns a string of hours:minutes:seconds from the seconds given.
 
-        OrgFormat.get_hms_from_sec(9999)
+        OrgFormat.hms_from_sec(9999)
         -> '2:46:39'
 
         @param sec: seconds
@@ -516,16 +517,16 @@ class OrgFormat(object):
         return str(hours) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2)
 
     @staticmethod
-    def get_dhms_from_sec(sec: int) -> str:
+    def dhms_from_sec(sec: int) -> str:
         """
         Returns a string of days hours:minutes:seconds (like
         "9d 13:59:59") from the seconds given. If days is zero, omit
         the part of the days (like "13:59:59").
 
-        OrgFormat.get_dhms_from_sec(123)
+        OrgFormat.dhms_from_sec(123)
         -> '0:02:03'
 
-        OrgFormat.get_dhms_from_sec(99999)
+        OrgFormat.dhms_from_sec(99999)
         -> '1d 3:46:39'
 
         @param sec: seconds
