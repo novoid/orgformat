@@ -4,13 +4,9 @@ This is a utility library for providing functions to generate and
 modify [[https://orgmode.org][Org mode]] syntax elements like [[https://orgmode.org/manual/External-links.html][links]], [[https://orgmode.org/manual/Timestamps.html#Timestamps][time-stamps]], or
 date-stamps.
 
-This file was initially written mainly by https://github.com/awieser
-and was part of [[https://github.com/novoid/Memacs][Memacs]].
+** Documentation
 
-As of 2019-10-31, this file is moved to an independent library since
-multiple projects are using its functions such as:
-
-- [[https://github.com/novoid/lazyblorg][lazyblorg]]
+You can find the [[file:orgformat.html][pydoc documentation in HTML here]].
 
 ** Installation
 
@@ -28,7 +24,30 @@ project and installed when you do invoke:
 
 ** Changelog
 
-- 2019-11-03: finished moving from Memacs and lazyblorg to a separate library
+- 2019-11-03: Finished moving from Memacs and lazyblorg to a separate library
+- FIXXME: ongoing
+  - [[https://www.python.org/dev/peps/pep-0484/][Python type annotations]] added for [[https://mypy.readthedocs.io/en/latest/index.html][mypy]] checks
+  - Refactoring, simplification, unification:
+    - more parameters for =show_time= and =inactive=
+    - removed some very basic and so-far unused wrappers for other functions
+    - removed functions for detailed parameters that got replaced by more generalized functions
+    - renamed some functions
+  - Unit tests for all functions ;-)
+  - Much [[file:orgformat.html][better documentation]] including examples
+  - /Don't worry about these breaking changes/: Memacs and lazyblorg
+    (the only projects using this library so far) were adapted
+    accordingly and therefore nobody should be affected so far. *No
+    breaking changes like this in the future.*
+
+** History
+
+This file was initially written mainly by https://github.com/awieser
+and was part of [[https://github.com/novoid/Memacs][Memacs]].
+
+As of 2019-10-31, this file is moved to an independent library since
+multiple projects are using its functions such as:
+
+- [[https://github.com/novoid/lazyblorg][lazyblorg]]
 
 ** How to Thank Me
 
