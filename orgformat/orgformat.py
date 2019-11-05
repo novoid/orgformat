@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
+# Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-11-05 13:50:26 vk>
-
-# This file is originally from Memacs: https://github.com/novoid/Memacs
-# and was initially written mainly by https://github.com/awieser
-# see: https://github.com/novoid/Memacs/blob/master/memacs/lib/orgformat.py
-#
-# As of 2019-10-31, this file is moved to an independent library since
-# multiple projects are using its functions such as:
-# https://github.com/novoid/lazyblorg
+# Time-stamp: <2019-11-05 21:37:37 vk>
 
 import time
 import datetime
@@ -33,9 +26,12 @@ class TimestampParseException(Exception):
 
 class OrgFormat(object):
     """
-    Utility library for providing functions to generate and modify Org mode syntax elements like links, time-stamps, or date-stamps.
+    Utility library for providing functions to generate and modify Org
+    mode syntax elements like links, time-stamps, or date-stamps.
     """
 
+    # FIXXME: this regular expression contains only English and German weekday names so far.
+    # If this gets an issue, replace weekdays with 2-3 arbitrary characters or similar.
     SINGLE_ORGMODE_TIMESTAMP = "([<\[]([12]\d\d\d)-([012345]\d)-([012345]\d) " + \
         "(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mo|Di|Mi|Do|Fr|Sa|So|Mon|Die|Mit|Don|Fre|Sam|Son) " + \
         "(([01]\d)|(20|21|22|23)):([012345]\d)[>\]])"
@@ -45,10 +41,16 @@ class OrgFormat(object):
     ORGMODE_TIMESTAMP_RANGE_REGEX = re.compile(
         SINGLE_ORGMODE_TIMESTAMP + "-(-)?" + SINGLE_ORGMODE_TIMESTAMP + "$")
 
+    DATETIME_REGEX = re.compile('[12]\d\d\d-[012345]\d?-([012345]\d?)' + \
+                                '( \d\d?[:.][012345]\d?([:.][012345]\d?)?)?')
+
+    ISODATETIME_REGEX = re.compile('([12]\d\d\d-[012345]\d?-([012345]\d?))' + \
+                                   '([T ]((\d\d?[:.][012345]\d?)([:.][012345]\d?)?))?')
+
     @staticmethod
     def orgmode_timestamp_to_datetime(orgtime: str) -> datetime.datetime:
         """
-        Returns a datetime object containing the time-stamp of an Org-mode time-stamp:
+        Returns a datetime object containing the time-stamp of an Org mode time-stamp:
 
         OrgFormat.orgmode_timestamp_to_datetime('<1980-12-31 Wed 23:59>')
         -> datetime.datetime(1980, 12, 31, 23, 59, 0, tzinfo=None)
@@ -76,17 +78,17 @@ class OrgFormat(object):
         return datetime.datetime(year, month, day, hour, minute, 0)
 
     @staticmethod
-    def apply_timedelta_to_Orgmode_timestamp(orgtime: str, deltahours: Union[int, float]) -> str:
+    def apply_timedelta_to_org_timestamp(orgtime: str, deltahours: Union[int, float]) -> str:
         """
-        Returns a string containing an Org-mode time-stamp which has
-        delta added in hours. It works also for a time-stamp range
+        Returns a string containing an Org mode time-stamp which got
+        added the given delta hours. It works also for a time-stamp range
         which uses two strings <YYYY-MM-DD Sun HH:MM> concatenated
         with one or two dashes.
 
-        OrgFormat.apply_timedelta_to_Orgmode_timestamp('<2019-11-05 Tue 23:59>', 1)
+        OrgFormat.apply_timedelta_to_org_timestamp('<2019-11-05 Tue 23:59>', 1)
         -> '<2019-11-06 Wed 00:59>'
 
-        OrgFormat.apply_timedelta_to_Orgmode_timestamp('<2020-01-01 Wed 01:30>--<2020-01-01 Wed 02:00>', -2.5)
+        OrgFormat.apply_timedelta_to_org_timestamp('<2020-01-01 Wed 01:30>--<2020-01-01 Wed 02:00>', -2.5)
         -> '<2019-12-31 Tue 23:00>--<2019-12-31 Tue 23:30>'
 
         FIXXME: implement support for inactive date/time ranges
@@ -103,24 +105,29 @@ class OrgFormat(object):
             OrgFormat.ORGMODE_TIMESTAMP_RANGE_REGEX, orgtime)
 
         if range_components:
-            return OrgFormat.datetime(
+            return OrgFormat.date(
                 OrgFormat.orgmode_timestamp_to_datetime(  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
                     range_components.groups(0)[0]) +  # type: ignore  # FIXXME why
-                datetime.timedelta(0, 0, 0, 0, 0, deltahours)) + \
+                datetime.timedelta(0, 0, 0, 0, 0, deltahours), show_time=True, inactive=False) + \
                 "--" + \
-                OrgFormat.datetime(
+                OrgFormat.date(
                     OrgFormat.orgmode_timestamp_to_datetime(  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
                         range_components.groups(0)[10]) +  # type: ignore  # FIXXME why
-                    datetime.timedelta(0, 0, 0, 0, 0, deltahours))
+                    datetime.timedelta(0, 0, 0, 0, 0, deltahours), show_time=True, inactive=False)
         else:
-            return OrgFormat.datetime(OrgFormat.orgmode_timestamp_to_datetime(orgtime) +  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
-                                      datetime.timedelta(0, 0, 0, 0, 0, deltahours))
+            return OrgFormat.date(OrgFormat.orgmode_timestamp_to_datetime(orgtime) +  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
+                                  datetime.timedelta(0, 0, 0, 0, 0, deltahours),
+                                  show_time=True, inactive=False)
 
     @staticmethod
     def struct_time_to_datetime(tuple_date: time.struct_time) -> datetime.datetime:
         """
-        returns a datetime object which was generated from the struct_time parameter
-        @param struct_time with possible false day of week
+        Converts a time.struct_time argument to a datetime.datetime object
+
+        OrgFormat.struct_time_to_datetime(time.struct_time((2019, 12, 31, 23, 59, 0, 0, 0, 0)))
+        -> datetime.datetime(2019, 12, 31, 23, 59, 0, tzinfo=None)
+
+        @param struct_time with potential wrong day of week
         """
 
         assert isinstance(tuple_date, time.struct_time)
@@ -134,6 +141,11 @@ class OrgFormat(object):
     @staticmethod
     def datetime_to_struct_time(tuple_date: datetime.datetime) -> time.struct_time:
         """
+        Converts a datetime.datetime argument to a time.struct_time object
+
+        OrgFormat.datetime_to_struct_time(datetime.datetime(2019, 12, 31, 23, 59, 0, tzinfo=None))
+        -> time.strptime("31 Dec 2019 23:59:00", "%d %b %Y %H:%M:%S"))
+
         returns time.struct_time which was generated from the datetime.datetime parameter
         @param datetime object
         """
@@ -144,8 +156,13 @@ class OrgFormat(object):
     @staticmethod
     def fix_struct_time_wday(tuple_date: time.struct_time) -> time.struct_time:
         """
+        Correcting the given time.struct_time with the correct day of the week.
+
+        OrgFormat.fix_struct_time_wday(time.struct_time([2013, 4, 3, 10, 54, 0, 0, 0, 0]))
+        -> time.struct_time([2013, 4, 3, 10, 54, 0, 2, 0, 0])   # Notice the different tm_wday.
+
         returns struct_time timestamp with correct day of week
-        @param struct_time with possible false day of week
+        @param struct_time with potential false day of week
         """
 
         assert isinstance(tuple_date, time.struct_time)
@@ -159,35 +176,19 @@ class OrgFormat(object):
                                  datetimestamp.weekday(),
                                  0, 0))
 
-    # timestamp = time.struct_time([2013,4,3,10,54,0,0,0,0])  ## wday == 0
-    # OrgFormat.date(timestamp)  ## '<2013-04-03 Mon>' -> Mon is wrong for April 3rd 2013
-    # OrgFormat.date( OrgFormat.fix_struct_time_wday(timestamp) ) ## '<2013-04-03 Wed>'
-
-    @staticmethod
-    def link(link: str, description: str = None, replacespaces: bool = True) -> str:
-        """
-        returns string of a link in org-format
-        @param link: link to i.e. file
-        @param description: optional
-        @param replacespaces: if True (default), spaces within link are being sanitized
-        """
-
-        if replacespaces:
-            link = link.replace(" ", "%20")
-
-        if description:
-            return "[[" + link + "][" + description + "]]"
-        else:
-            return "[[" + link + "]]"
-
     @staticmethod
     def date(tuple_date: Union[time.struct_time, datetime.datetime], show_time: bool = False, inactive: bool = False) -> str:
         """
-        returns a date string in org format
-        i.e.: * <YYYY-MM-DD Sun>        (for active date-stamps)
-              * <YYYY-MM-DD Sun HH:MM>  (for active time-stamps)
-        @param tuple_date: has to be of type time.struct_time or datetime
-        @param show_time: optional show time also
+        Converts a given time.struct_time or datetime.datetime to an Org date- or time-stamp.
+
+        OrgFormat.date(time.strptime("2011-11-02T20:38:42", "%Y-%m-%dT%H:%M:%S"))
+        -> "<2011-11-02 Wed>"
+
+        OrgFormat.date(time.strptime("2011-11-02T20:38:42", "%Y-%m-%dT%H:%M:%S"), show_time=True)
+        -> "<2011-11-02 Wed 20:38>"
+
+        @param tuple_date: has to be of type time.struct_time or datetime.datetime
+        @param show_time: optional show time
         @param inactive: (boolean) True: use inactive time-stamp; else use active
         """
         # <YYYY-MM-DD hh:mm>
@@ -215,189 +216,171 @@ class OrgFormat(object):
                 return time.strftime("<%Y-%m-%d %a>", local_structtime)
 
     @staticmethod
-    def inactive_date(tuple_date: Union[time.struct_time, datetime.datetime], show_time: bool = False) -> str:
+    def daterange(begin: time.struct_time, end: time.struct_time, show_time: bool = False, inactive: bool = False) -> str:
         """
-        returns a date string in org format
-        i.e.: * [YYYY-MM-DD Sun]
-              * [YYYY-MM-DD Sun HH:MM]
-        @param tuple_date: has to be a time.struct_time or datetime
-        @param show_time: optional show time also
-        """
-        # <YYYY-MM-DD hh:mm>
-        assert (tuple_date.__class__ ==
-                time.struct_time or tuple_date.__class__ == datetime.datetime)
+        Converts two given time.struct_time or datetime.datetime to an Org range of date- or time-stamps.
 
-        local_structtime = None  # : time.struct_time   # Variable annotation syntax is only supported in Python 3.6 and greater
+        OrgFormat.daterange(
+                time.strptime("2011-11-29", "%Y-%m-%d"),
+                time.strptime("2011-11-30", "%Y-%m-%d"))
+        -> "<2011-11-29 Tue>--<2011-11-30 Wed>")
 
-        if isinstance(tuple_date, time.struct_time):
-            # fix day of week in struct_time
-            local_structtime = OrgFormat.fix_struct_time_wday(tuple_date)
-        else:
-            # convert datetime to struc_time
-            local_structtime = OrgFormat.datetime_to_struct_time(tuple_date)
+        OrgFormat.daterange(
+                time.strptime("2011-11-29T20:38:42", "%Y-%m-%dT%H:%M:%S"),
+                time.strptime("2011-11-30T23:59:58", "%Y-%m-%dT%H:%M:%S"), show_time=True, inactive=True)
+        -> "[2011-11-29 Tue 00:00]--[2011-11-30 Wed 00:00]"
 
-        if show_time:
-            return time.strftime(
-                "[%Y-%m-%d %a %H:%M]",
-                OrgFormat.fix_struct_time_wday(local_structtime))
-        else:
-            return time.strftime("[%Y-%m-%d %a]", OrgFormat.fix_struct_time_wday(local_structtime))
-
-    @staticmethod
-    def datetime(tuple_datetime: time.struct_time, inactive: bool = False) -> str:
-        """
-        returns a date+time string in org format
-        wrapper for OrgFormat.date(show_time=True)
-
-        @param tuple_datetime has to be a time.struct_time
-        @param inactive: (boolean) True: use inactive time-stamp; else use active
-        """
-        return OrgFormat.date(tuple_datetime, show_time=True)
-
-    @staticmethod
-    def inactive_datetime(tuple_datetime: time.struct_time) -> str:
-        """
-        returns a date+time string in org format
-        wrapper for OrgFormat.inactive_date(show_time=True)
-
-        @param tuple_datetime has to be a time.struct_time
-        """
-        return OrgFormat.inactive_date(tuple_datetime, show_time=True)
-
-    @staticmethod
-    def daterange(begin: time.struct_time, end: time.struct_time) -> str:
-        """
-        returns a date range string in org format
-
-        @param begin,end: has to be a time.struct_time
+        @param begin, end: have to be time.struct_time
+        @param show_time: optional show time
+        @param inactive: (boolean) True: use inactive time-stamps; else return active time-stamps
         """
         assert isinstance(begin, time.struct_time)
         assert isinstance(end, time.struct_time)
-        return "%s--%s" % (OrgFormat.date(begin, False),
-                           OrgFormat.date(end, False))
+        return "%s--%s" % (OrgFormat.date(begin, show_time=show_time, inactive=inactive),
+                           OrgFormat.date(end, show_time=show_time, inactive=inactive))
 
     @staticmethod
-    def datetimerange(begin: time.struct_time, end: time.struct_time) -> str:
+    def daterange_autodetect_time(begin_tuple: time.struct_time, end_tuple: time.struct_time, inactive: bool = False) -> str:
         """
-        returns a date range string in org format
+        Converts two given time.struct_time or datetime.datetime to an Org range of date- or time-stamps.
 
-        @param begin,end: has to be a time.struct_time
-        """
-        assert isinstance(begin, time.struct_time)
-        assert isinstance(end, time.struct_time)
-        return "%s--%s" % (OrgFormat.date(begin, True),
-                           OrgFormat.date(end, True))
+        If both time parameters do not contain time information,
+        result is a range of dates, else it results in time-ranges.
 
-    @staticmethod
-    def utcrange(begin_tupel: time.struct_time, end_tupel: time.struct_time) -> str:
-        """
-        returns a date(time) range string in org format
-        if both parameters do not contain time information,
-        utcrange is same as daterange, else it is same as datetimerange.
+        OrgFormat.daterange_autodetect_time(
+                time.strptime("2011-11-29", "%Y-%m-%d"),
+                time.strptime("2011-11-30T23:59", "%Y-%m-%dT%H:%M"), inactive=True)
+        -> "[2011-11-29 Tue 00:00]--[2011-11-30 Wed 23:59]"
+
+        OrgFormat.daterange_autodetect_time(
+                time.strptime("2011-11-29", "%Y-%m-%d"),
+                time.strptime("2011-11-30", "%Y-%m-%d"), inactive=True)
+        -> "[2011-11-29 Tue]--[2011-11-30 Wed]"
 
         @param begin,end: has to be a a time.struct_time
+        @param inactive: (boolean) True: use inactive time-stamps; else return active time-stamps
         """
 
-        if begin_tupel.tm_sec == 0 and \
-                begin_tupel.tm_min == 0 and \
-                begin_tupel.tm_hour == 0 and \
-                end_tupel.tm_sec == 0 and \
-                end_tupel.tm_min == 0 and \
-                end_tupel.tm_hour == 0:
+        if begin_tuple.tm_sec == 0 and \
+                begin_tuple.tm_min == 0 and \
+                begin_tuple.tm_hour == 0 and \
+                end_tuple.tm_sec == 0 and \
+                end_tuple.tm_min == 0 and \
+                end_tuple.tm_hour == 0:
 
-            return OrgFormat.daterange(begin_tupel, end_tupel)
+            return OrgFormat.daterange(begin_tuple, end_tuple, show_time = False, inactive = inactive)
         else:
-            return OrgFormat.datetimerange(begin_tupel, end_tupel)
+            return OrgFormat.daterange(begin_tuple, end_tuple, show_time = True, inactive = inactive)
 
     @staticmethod
-    def strdate(date_string: str, inactive: bool = False) -> str:
+    def strdate(date_string: str, show_time: bool = False, inactive: bool = False) -> str:
         """
-        returns a date string in org format
-        i.e.: * <YYYY-MM-DD Sun>
-        @param date-string: has to be a str in following format:  YYYY-MM-DD
+        Converts a ISO 8601 like time- or date-stamp into a time- or date-stamp in org format.
+
+        OrgFormat.strdate('2011-11-3')
+        -> '<2011-11-03 Thu>'
+
+        OrgFormat.strdate('2011-11-03 23:59', inactive=True, show_time=True)
+        -> '[2011-11-03 Thu 23:59]'
+
+        @param date-string: has to be a str of the required format: '%Y-%M-%D (%H:%M(:%S))'
+        @param show_time: optional show time
         @param inactive: (boolean) True: use inactive time-stamp; else use active
         """
         assert isinstance(date_string, str)
-        tuple_date = OrgFormat.datetupeliso8601(date_string)
-        if inactive:
-            return OrgFormat.inactive_date(tuple_date, show_time=False)
+        components = re.match(OrgFormat.ISODATETIME_REGEX, date_string)
+        if components:
+            if components.group(1) and components.group(5):
+                # found %Y-%m-%d %H:%M  ; don't care about the seconds
+                tuple_date = time.strptime(components.group(1) + 'T' +
+                                           components.group(5).replace(':', '.'),
+                                           "%Y-%m-%dT%H.%M")
+                return OrgFormat.date(tuple_date, show_time=show_time, inactive=inactive)
+            elif components.group(1):
+                # found %Y-%m-%d
+                tuple_date = time.strptime(components.group(1),
+                                           "%Y-%m-%d")
+                return OrgFormat.date(tuple_date, show_time=show_time, inactive=inactive)
         else:
-            return OrgFormat.date(tuple_date, show_time=False)
+            raise TimestampParseException('The provided date string does not match ' +
+                                          'the required format for %Y-%M-%D (%H.%M(.%S)): ' +
+                                          str(date_string))
+        assert False  # to satisfy mypy 0.740: "Missing return statement"
+
+#    @staticmethod
+#    def strdatetimeiso8601(datetime_string: str) -> str:
+#        """
+#        returns a date string in org format
+#
+#        OrgFormat.strdatetimeiso8601('2011-11-30T21.06')
+#        -> '<2011-11-30 Wed 21:06>'
+#
+#        OrgFormat.strdatetimeiso8601('2011-11-30T21.06.02')
+#        -> '<2011-11-30 Wed 21:06>'
+#
+#        @param date-string: has to be a str in format: YYYY-MM-DD([T ]HH[.:]MM([.:]SS)?)?
+#        """
+#        assert isinstance(datetime_string, str)
+#        tuple_date = OrgFormat.datetimetupleiso8601(datetime_string)
+#        return OrgFormat.date(tuple_date, show_time=True)
 
     @staticmethod
-    def strdatetime(datetime_string: str, inactive: bool = False) -> str:
+    def datetimetupleiso8601(datetime_string: str) -> time.struct_time:
         """
-        returns a date string in org format
-        i.e.: * <YYYY-MM-DD Sun HH:MM>
-        @param date-string: has to be a str in
-                           following format: YYYY-MM-DD HH:MM
-        @param inactive: (boolean) True: use inactive time-stamp; else use active
+        returns a time_tuple
+
+        OrgFormat.datetimetupleiso8601("2011-1-2")
+        -> time.strptime('2011-01-02', '%Y-%m-%d')
+
+        OrgFormat.datetimetupleiso8601("2011-1-2T3.4.5")
+        -> time.strptime('2011-01-02 03.04.05', '%Y-%m-%d %H.%M.%S')
+
+        OrgFormat.datetimetupleiso8601("2011-1-2 3:4")
+        -> time.strptime('2011-01-02 03.04', '%Y-%m-%d %H.%M')
+
+        @param datetime_string: YYYY-MM-DD([T ]HH[.:]MM([.:]SS)?)?
         """
         assert isinstance(datetime_string, str)
-        try:
-            tuple_date = time.strptime(datetime_string, "%Y-%m-%d %H:%M")
-        except ValueError as e:
-            raise TimestampParseException(e)
-        if inactive:
-            return OrgFormat.inactive_date(tuple_date, show_time=True)
+
+        components = re.match(OrgFormat.ISODATETIME_REGEX, datetime_string)
+        if components:
+            if components.group(1) and components.group(4) and components.group(5):
+                # found %Y-%m-%d %H:%M:%S
+                return time.strptime(components.group(1) + 'T' +
+                                     components.group(4).replace(':', '.'),
+                                     "%Y-%m-%dT%H.%M.%S")
+            if components.group(1) and components.group(3):
+                # found %Y-%m-%d %H:%M
+                return time.strptime(components.group(1) + 'T' +
+                                     components.group(4).replace(':', '.'),
+                                     "%Y-%m-%dT%H.%M")
+            elif components.group(1):
+                # found %Y-%m-%d
+                return time.strptime(components.group(1), "%Y-%m-%d")
         else:
-            return OrgFormat.date(tuple_date, show_time=True)
+            raise TimestampParseException('The provided date string does not match ' +
+                                          'the required format for %Y-%M-%D (%H.%M(.%S)): ' +
+                                          str(datetime_string))
+        assert False  # to satisfy mypy 0.740: "Missing return statement"
 
     @staticmethod
-    def strdatetimeiso8601(datetime_string: str) -> str:
+    def datetupleutctimestamp(datetime_string: str) -> time.struct_time:
         """
-        returns a date string in org format
-        i.e.: * <YYYY-MM-DD Sun HH:MM>
-        @param date-string: has to be a str
-                            in following format: YYYY-MM-DDTHH.MM.SS or
-                                                 YYYY-MM-DDTHH.MM
-        """
-        assert isinstance(datetime_string, str)
-        tuple_date = OrgFormat.datetimetupeliso8601(datetime_string)
-        return OrgFormat.date(tuple_date, show_time=True)
+        returns a time_tuple
 
-    @staticmethod
-    def datetimetupeliso8601(datetime_string: str) -> time.struct_time:
-        """
-        returns a time_tupel
-        @param datetime_string: YYYY-MM-DDTHH.MM.SS or
-                                YYYY-MM-DDTHH.MM
-        """
-        assert isinstance(datetime_string, str)
-        # maybe insert assert statement for datetime_string having length of 16 or 19 only
-        try:
-            if len(datetime_string) == 16:  # YYYY-MM-DDTHH.MM
-                return time.strptime(datetime_string, "%Y-%m-%dT%H.%M")
-            elif len(datetime_string) == 19:  # YYYY-MM-DDTHH.MM.SS
-                return time.strptime(datetime_string, "%Y-%m-%dT%H.%M.%S")
-        except ValueError as e:
-            raise TimestampParseException(e)
-        assert(False)  # dead code for assuring mypy that everything
-                       # above is handled by a return or raising
-                       # exception statement
+        OrgFormat.date(
+                OrgFormat.datetupleutctimestamp('20111219T205510Z'), True
+            )
+        -> '<2011-12-19 Mon 21:55>'  (for TZ == "Europe/Vienna")
 
-    @staticmethod
-    def datetupeliso8601(datetime_string: str) -> time.struct_time:
-        """
-        returns a time_tupel
-        @param datetime_string: YYYY-MM-DD
-        """
-        assert isinstance(datetime_string, str)
-        try:
-            return time.strptime(datetime_string, "%Y-%m-%d")
-        except ValueError as e:
-            raise TimestampParseException(e)
-
-    @staticmethod
-    def datetupelutctimestamp(datetime_string: str) -> time.struct_time:
-        """
-        returns a time_tupel
         @param datetime_string: YYYYMMDDTHHMMSSZ or
                                 YYYYMMDDTHHMMSS or
                                 YYYYMMDD
         """
         assert isinstance(datetime_string, str)
         string_length = len(datetime_string)
+
+        # FIXXME: more intense checks on the datetime_string format using regex?
 
         try:
             if string_length == 16:
@@ -419,50 +402,109 @@ class OrgFormat(object):
                         time.strptime(datetime_string,
                                       "%Y-%m-%dT%H:%M:%SZ")))
             else:
-                logging.error("string has no correct format: %s",
-                              datetime_string)
+                raise TimestampParseException('datetime_string does not match expected format: ' +
+                                              datetime_string)
         except ValueError as e:
             raise TimestampParseException(e)
+
         assert(False)  # dead code for assuring mypy that everything
                        # above is handled by a return or raising
                        # exception statement
 
     @staticmethod
+    def link(link: str, description: str = None, replacespaces: bool = True) -> str:
+        """
+        returns link-string as an Org mode link
+
+        FIXXME: rename to a better function name
+
+        OrgFormat.link('file:foo/bar/some file.pdf'),
+        -> '[[file:foo/bar/some%20file.pdf]]'
+
+        OrgFormat.link('file:foo/bar/some file.pdf', 'my description')
+        -> '[[file:foo/bar/some%20file.pdf][my description]]'
+
+        OrgFormat.link('file:foo/bar/some file.pdf', 'my description', replacespaces=False),
+        -> '[[file:foo/bar/some file.pdf][my description]]'
+
+        @param link: link to, i.e., file which should end up such as '[[file:description]]'
+        @param description: optional
+        @param replacespaces: if True (default), spaces within link are being sanitized
+        """
+
+        if replacespaces:
+            link = link.replace(" ", "%20")
+
+        if description:
+            return "[[" + link + "][" + description + "]]"
+        else:
+            return "[[" + link + "]]"
+
+    @staticmethod
     def contact_mail_mailto_link(contact_mail_string: str) -> str:
         """
-        @param contact_mailto_string: possibilities:
+        Takes an email address within optional angle brackets and
+        optional name and generates an Org mode mailto email link.
+
         - "Bob Bobby <bob.bobby@example.com>" or
         - <Bob@example.com>" or
         - Bob@example.com
 
-        @return:
-        - [[mailto:bob.bobby@example.com][Bob Bobby]]
-        - [[mailto:bob.bobby@example.com][bob.bobby@excample.com]]
+        OrgFormat.contact_mail_mailto_link('Bob Bobby <bob.bobby@example.com>'
+        -> '[[mailto:bob.bobby@example.com][Bob Bobby]]'
+
+        OrgFormat.contact_mail_mailto_link('<Bob@example.com>'
+        -> '[[mailto:Bob@example.com][Bob@example.com]]'
+
+        Note that there is no check on the validy of the
+        email address format.
+
+        @param contact_mailto_string: the email information of a contact
+        @return: Org mode mailto email link
         """
+
         delimiter = contact_mail_string.find("<")
         if delimiter != -1:
             name = contact_mail_string[:delimiter].strip()
             mail = contact_mail_string[delimiter + 1:][:-1].strip()
             if delimiter == 0:
-                return "[[mailto:" + mail + "][" + mail + "]]"
-            return "[[mailto:" + mail + "][" + name + "]]"
-
+                return OrgFormat.link("mailto:" + mail,
+                                      description=mail,
+                                      replacespaces=False)
+            return OrgFormat.link("mailto:" + mail,
+                                  description=name,
+                                  replacespaces=False)
         else:
-            return "[[mailto:" + contact_mail_string + "][" + contact_mail_string + "]]"
+            return OrgFormat.link("mailto:" + contact_mail_string,
+                                  description=contact_mail_string,
+                                  replacespaces=False)
 
     @staticmethod
     def newsgroup_link(newsgroup_string: str) -> str:
         """
+
+        OrgFormat.newsgroup_link('foo')
+        -> '[[news:foo][foo]]'
+
+        Note that there is no check on the validy or content of the
+        input string.
+
         @param newsgroup_string: Usenet name
             i.e: news:comp.emacs
         @param return: [[news:comp.emacs][comp.emacs]]
         """
-        return "[[news:" + newsgroup_string + "][" + newsgroup_string + "]]"
+        assert newsgroup_string
+        return OrgFormat.link("news:" + newsgroup_string,
+                              description=newsgroup_string,
+                              replacespaces=False)
 
     @staticmethod
     def get_hms_from_sec(sec: int) -> str:
         """
         Returns a string of hours:minutes:seconds from the seconds given.
+
+        OrgFormat.get_hms_from_sec(9999)
+        -> '2:46:39'
 
         @param sec: seconds
         @param return: h:mm:ss as string
@@ -482,6 +524,12 @@ class OrgFormat(object):
         Returns a string of days hours:minutes:seconds (like
         "9d 13:59:59") from the seconds given. If days is zero, omit
         the part of the days (like "13:59:59").
+
+        OrgFormat.get_dhms_from_sec(123)
+        -> '0:02:03'
+
+        OrgFormat.get_dhms_from_sec(99999)
+        -> '1d 3:46:39'
 
         @param sec: seconds
         @param return: xd h:mm:ss as string
