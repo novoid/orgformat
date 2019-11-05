@@ -1,0 +1,360 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module orgformat</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>orgformat</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:orgformat/orgformat/orgformat.py">orgformat/orgformat/orgformat.py</a></font></td></tr></table>
+    <p><tt>#&nbsp;Find&nbsp;much&nbsp;more&nbsp;example&nbsp;calls&nbsp;in&nbsp;the&nbsp;unit&nbsp;test&nbsp;file&nbsp;orgformat_test.py<br>
+#&nbsp;-*-&nbsp;coding:&nbsp;utf-8;&nbsp;mode:&nbsp;python;&nbsp;-*-<br>
+#&nbsp;Time-stamp:&nbsp;&lt;2019-11-05&nbsp;21:10:09&nbsp;vk&gt;</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="calendar.html">calendar</a><br>
+<a href="datetime.html">datetime</a><br>
+</td><td width="25%" valign=top><a href="logging.html">logging</a><br>
+<a href="re.html">re</a><br>
+</td><td width="25%" valign=top><a href="time.html">time</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="builtins.html#Exception">builtins.Exception</a>(<a href="builtins.html#BaseException">builtins.BaseException</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="orgformat.html#TimestampParseException">TimestampParseException</a>
+</font></dt></dl>
+</dd>
+<dt><font face="helvetica, arial"><a href="builtins.html#object">builtins.object</a>
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="orgformat.html#OrgFormat">OrgFormat</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="OrgFormat">class <strong>OrgFormat</strong></a>(<a href="builtins.html#object">builtins.object</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Utility&nbsp;library&nbsp;for&nbsp;providing&nbsp;functions&nbsp;to&nbsp;generate&nbsp;and&nbsp;modify&nbsp;Org<br>
+mode&nbsp;syntax&nbsp;elements&nbsp;like&nbsp;links,&nbsp;time-stamps,&nbsp;or&nbsp;date-stamps.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Static methods defined here:<br>
+<dl><dt><a name="OrgFormat-apply_timedelta_to_org_timestamp"><strong>apply_timedelta_to_org_timestamp</strong></a>(orgtime:str, deltahours:Union[int, float]) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;containing&nbsp;an&nbsp;Org&nbsp;mode&nbsp;time-stamp&nbsp;which&nbsp;got<br>
+added&nbsp;the&nbsp;given&nbsp;delta&nbsp;hours.&nbsp;It&nbsp;works&nbsp;also&nbsp;for&nbsp;a&nbsp;time-stamp&nbsp;range<br>
+which&nbsp;uses&nbsp;two&nbsp;strings&nbsp;&lt;YYYY-MM-DD&nbsp;Sun&nbsp;HH:MM&gt;&nbsp;concatenated<br>
+with&nbsp;one&nbsp;or&nbsp;two&nbsp;dashes.<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-apply_timedelta_to_org_timestamp">apply_timedelta_to_org_timestamp</a>('&lt;2019-11-05&nbsp;Tue&nbsp;23:59&gt;',&nbsp;1)<br>
+-&gt;&nbsp;'&lt;2019-11-06&nbsp;Wed&nbsp;00:59&gt;'<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-apply_timedelta_to_org_timestamp">apply_timedelta_to_org_timestamp</a>('&lt;2020-01-01&nbsp;Wed&nbsp;01:30&gt;--&lt;2020-01-01&nbsp;Wed&nbsp;02:00&gt;',&nbsp;-2.5)<br>
+-&gt;&nbsp;'&lt;2019-12-31&nbsp;Tue&nbsp;23:00&gt;--&lt;2019-12-31&nbsp;Tue&nbsp;23:30&gt;'<br>
+&nbsp;<br>
+FIXXME:&nbsp;implement&nbsp;support&nbsp;for&nbsp;inactive&nbsp;date/time&nbsp;ranges<br>
+&nbsp;<br>
+@param&nbsp;orgtime:&nbsp;'&lt;YYYY-MM-DD&nbsp;Sun&nbsp;HH:MM&gt;'<br>
+@param&nbsp;deltahours:&nbsp;integer/float&nbsp;like,&nbsp;e.g.,&nbsp;3&nbsp;or&nbsp;-2.5&nbsp;(in&nbsp;hours)<br>
+@param&nbsp;return:&nbsp;'&lt;YYYY-MM-DD&nbsp;Sun&nbsp;HH:MM&gt;'</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-contact_mail_mailto_link"><strong>contact_mail_mailto_link</strong></a>(contact_mail_string:str) -&gt; str</dt><dd><tt>Takes&nbsp;an&nbsp;email&nbsp;address&nbsp;within&nbsp;optional&nbsp;angle&nbsp;brackets&nbsp;and<br>
+optional&nbsp;name&nbsp;and&nbsp;generates&nbsp;an&nbsp;Org&nbsp;mode&nbsp;mailto&nbsp;email&nbsp;link.<br>
+&nbsp;<br>
+-&nbsp;"Bob&nbsp;Bobby&nbsp;&lt;bob.bobby@example.com&gt;"&nbsp;or<br>
+-&nbsp;&lt;Bob@example.com&gt;"&nbsp;or<br>
+-&nbsp;Bob@example.com<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-contact_mail_mailto_link">contact_mail_mailto_link</a>('Bob&nbsp;Bobby&nbsp;&lt;bob.bobby@example.com&gt;'<br>
+-&gt;&nbsp;'[[mailto:bob.bobby@example.com][Bob&nbsp;Bobby]]'<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-contact_mail_mailto_link">contact_mail_mailto_link</a>('&lt;Bob@example.com&gt;'<br>
+-&gt;&nbsp;'[[mailto:Bob@example.com][Bob@example.com]]'<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;there&nbsp;is&nbsp;no&nbsp;check&nbsp;on&nbsp;the&nbsp;validy&nbsp;of&nbsp;the<br>
+email&nbsp;address&nbsp;format.<br>
+&nbsp;<br>
+@param&nbsp;contact_mailto_string:&nbsp;the&nbsp;email&nbsp;information&nbsp;of&nbsp;a&nbsp;contact<br>
+@return:&nbsp;Org&nbsp;mode&nbsp;mailto&nbsp;email&nbsp;link</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-date"><strong>date</strong></a>(tuple_date:Union[time.struct_time, datetime.datetime], show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;given&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime&nbsp;to&nbsp;an&nbsp;Org&nbsp;date-&nbsp;or&nbsp;time-stamp.<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-date">date</a>(time.strptime("2011-11-02T20:38:42",&nbsp;"%Y-%m-%dT%H:%M:%S"))<br>
+-&gt;&nbsp;"&lt;2011-11-02&nbsp;Wed&gt;"<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-date">date</a>(time.strptime("2011-11-02T20:38:42",&nbsp;"%Y-%m-%dT%H:%M:%S"),&nbsp;show_time=True)<br>
+-&gt;&nbsp;"&lt;2011-11-02&nbsp;Wed&nbsp;20:38&gt;"<br>
+&nbsp;<br>
+@param&nbsp;tuple_date:&nbsp;has&nbsp;to&nbsp;be&nbsp;of&nbsp;type&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime<br>
+@param&nbsp;show_time:&nbsp;optional&nbsp;show&nbsp;time<br>
+@param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamp;&nbsp;else&nbsp;use&nbsp;active</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-daterange"><strong>daterange</strong></a>(begin:time.struct_time, end:time.struct_time, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>returns&nbsp;a&nbsp;date&nbsp;range&nbsp;string<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-daterange">daterange</a>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-29",&nbsp;"%Y-%m-%d"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-30",&nbsp;"%Y-%m-%d"))<br>
+-&gt;&nbsp;"&lt;2011-11-29&nbsp;Tue&gt;--&lt;2011-11-30&nbsp;Wed&gt;")<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-daterange">daterange</a>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-29T20:38:42",&nbsp;"%Y-%m-%dT%H:%M:%S"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-30T23:59:58",&nbsp;"%Y-%m-%dT%H:%M:%S"),&nbsp;show_time=True,&nbsp;inactive=True)<br>
+-&gt;&nbsp;"[2011-11-29&nbsp;Tue&nbsp;00:00]--[2011-11-30&nbsp;Wed&nbsp;00:00]"<br>
+&nbsp;<br>
+@param&nbsp;begin,&nbsp;end:&nbsp;have&nbsp;to&nbsp;be&nbsp;time.struct_time<br>
+@param&nbsp;show_time:&nbsp;optional&nbsp;show&nbsp;time<br>
+@param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamps;&nbsp;else&nbsp;return&nbsp;active&nbsp;time-stamps</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-daterange_autodetect_time"><strong>daterange_autodetect_time</strong></a>(begin_tuple:time.struct_time, end_tuple:time.struct_time, inactive:bool=False) -&gt; str</dt><dd><tt>returns&nbsp;a&nbsp;<a href="#OrgFormat-date">date</a>(time)&nbsp;range&nbsp;string&nbsp;in&nbsp;org&nbsp;format<br>
+if&nbsp;both&nbsp;parameters&nbsp;do&nbsp;not&nbsp;contain&nbsp;time&nbsp;information,<br>
+result&nbsp;is&nbsp;same&nbsp;as&nbsp;daterange,&nbsp;else&nbsp;it&nbsp;is&nbsp;same&nbsp;as&nbsp;datetimerange.<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-daterange_autodetect_time">daterange_autodetect_time</a>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-29",&nbsp;"%Y-%m-%d"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-30T23:59",&nbsp;"%Y-%m-%dT%H:%M"),&nbsp;inactive=True)<br>
+-&gt;&nbsp;"[2011-11-29&nbsp;Tue&nbsp;00:00]--[2011-11-30&nbsp;Wed&nbsp;23:59]"<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-daterange_autodetect_time">daterange_autodetect_time</a>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-29",&nbsp;"%Y-%m-%d"),<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;time.strptime("2011-11-30",&nbsp;"%Y-%m-%d"),&nbsp;inactive=True)<br>
+-&gt;&nbsp;"[2011-11-29&nbsp;Tue]--[2011-11-30&nbsp;Wed]"<br>
+&nbsp;<br>
+@param&nbsp;begin,end:&nbsp;has&nbsp;to&nbsp;be&nbsp;a&nbsp;a&nbsp;time.struct_time<br>
+@param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamps;&nbsp;else&nbsp;return&nbsp;active&nbsp;time-stamps</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-datetime_to_struct_time"><strong>datetime_to_struct_time</strong></a>(tuple_date:datetime.datetime) -&gt; time.struct_time</dt><dd><tt>Converts&nbsp;a&nbsp;datetime.datetime&nbsp;argument&nbsp;to&nbsp;a&nbsp;time.struct_time&nbsp;<a href="builtins.html#object">object</a><br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetime_to_struct_time">datetime_to_struct_time</a>(datetime.datetime(2019,&nbsp;12,&nbsp;31,&nbsp;23,&nbsp;59,&nbsp;0,&nbsp;tzinfo=None))<br>
+-&gt;&nbsp;time.strptime("31&nbsp;Dec&nbsp;2019&nbsp;23:59:00",&nbsp;"%d&nbsp;%b&nbsp;%Y&nbsp;%H:%M:%S"))<br>
+&nbsp;<br>
+returns&nbsp;time.struct_time&nbsp;which&nbsp;was&nbsp;generated&nbsp;from&nbsp;the&nbsp;datetime.datetime&nbsp;parameter<br>
+@param&nbsp;datetime&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-datetimetupleiso8601"><strong>datetimetupleiso8601</strong></a>(datetime_string:str) -&gt; time.struct_time</dt><dd><tt>returns&nbsp;a&nbsp;time_tuple<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetimetupleiso8601">datetimetupleiso8601</a>("2011-1-2")<br>
+-&gt;&nbsp;time.strptime('2011-01-02',&nbsp;'%Y-%m-%d')<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetimetupleiso8601">datetimetupleiso8601</a>("2011-1-2T3.4.5")<br>
+-&gt;&nbsp;time.strptime('2011-01-02&nbsp;03.04.05',&nbsp;'%Y-%m-%d&nbsp;%H.%M.%S')<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetimetupleiso8601">datetimetupleiso8601</a>("2011-1-2&nbsp;3:4")<br>
+-&gt;&nbsp;time.strptime('2011-01-02&nbsp;03.04',&nbsp;'%Y-%m-%d&nbsp;%H.%M')<br>
+&nbsp;<br>
+@param&nbsp;datetime_string:&nbsp;YYYY-MM-DD([T&nbsp;]HH[.:]MM([.:]SS)?)?</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-datetupleutctimestamp"><strong>datetupleutctimestamp</strong></a>(datetime_string:str) -&gt; time.struct_time</dt><dd><tt>returns&nbsp;a&nbsp;time_tuple<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-date">date</a>(<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-datetupleutctimestamp">datetupleutctimestamp</a>('20111219T205510Z'),&nbsp;True<br>
+&nbsp;&nbsp;&nbsp;&nbsp;)<br>
+-&gt;&nbsp;'&lt;2011-12-19&nbsp;Mon&nbsp;21:55&gt;'&nbsp;&nbsp;(for&nbsp;TZ&nbsp;==&nbsp;"Europe/Vienna")<br>
+&nbsp;<br>
+@param&nbsp;datetime_string:&nbsp;YYYYMMDDTHHMMSSZ&nbsp;or<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YYYYMMDDTHHMMSS&nbsp;or<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YYYYMMDD</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-fix_struct_time_wday"><strong>fix_struct_time_wday</strong></a>(tuple_date:time.struct_time) -&gt; time.struct_time</dt><dd><tt>Correcting&nbsp;the&nbsp;given&nbsp;time.struct_time&nbsp;with&nbsp;the&nbsp;correct&nbsp;day&nbsp;of&nbsp;the&nbsp;week.<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-fix_struct_time_wday">fix_struct_time_wday</a>(time.struct_time([2013,&nbsp;4,&nbsp;3,&nbsp;10,&nbsp;54,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0]))<br>
+-&gt;&nbsp;time.struct_time([2013,&nbsp;4,&nbsp;3,&nbsp;10,&nbsp;54,&nbsp;0,&nbsp;2,&nbsp;0,&nbsp;0])&nbsp;&nbsp;&nbsp;#&nbsp;Notice&nbsp;the&nbsp;different&nbsp;tm_wday.<br>
+&nbsp;<br>
+returns&nbsp;struct_time&nbsp;timestamp&nbsp;with&nbsp;correct&nbsp;day&nbsp;of&nbsp;week<br>
+@param&nbsp;struct_time&nbsp;with&nbsp;potential&nbsp;false&nbsp;day&nbsp;of&nbsp;week</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-get_dhms_from_sec"><strong>get_dhms_from_sec</strong></a>(sec:int) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;of&nbsp;days&nbsp;hours:minutes:seconds&nbsp;(like<br>
+"9d&nbsp;13:59:59")&nbsp;from&nbsp;the&nbsp;seconds&nbsp;given.&nbsp;If&nbsp;days&nbsp;is&nbsp;zero,&nbsp;omit<br>
+the&nbsp;part&nbsp;of&nbsp;the&nbsp;days&nbsp;(like&nbsp;"13:59:59").<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-get_dhms_from_sec">get_dhms_from_sec</a>(123)<br>
+-&gt;&nbsp;'0:02:03'<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-get_dhms_from_sec">get_dhms_from_sec</a>(99999)<br>
+-&gt;&nbsp;'1d&nbsp;3:46:39'<br>
+&nbsp;<br>
+@param&nbsp;sec:&nbsp;seconds<br>
+@param&nbsp;return:&nbsp;xd&nbsp;h:mm:ss&nbsp;as&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-get_hms_from_sec"><strong>get_hms_from_sec</strong></a>(sec:int) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;of&nbsp;hours:minutes:seconds&nbsp;from&nbsp;the&nbsp;seconds&nbsp;given.<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-get_hms_from_sec">get_hms_from_sec</a>(9999)<br>
+-&gt;&nbsp;'2:46:39'<br>
+&nbsp;<br>
+@param&nbsp;sec:&nbsp;seconds<br>
+@param&nbsp;return:&nbsp;h:mm:ss&nbsp;as&nbsp;string</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-link"><strong>link</strong></a>(link:str, description:str=None, replacespaces:bool=True) -&gt; str</dt><dd><tt>returns&nbsp;link-string&nbsp;as&nbsp;an&nbsp;Org&nbsp;mode&nbsp;link<br>
+&nbsp;<br>
+FIXXME:&nbsp;rename&nbsp;to&nbsp;a&nbsp;better&nbsp;function&nbsp;name<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-link">link</a>('file:foo/bar/some&nbsp;file.pdf'),<br>
+-&gt;&nbsp;'[[file:foo/bar/some%20file.pdf]]'<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-link">link</a>('file:foo/bar/some&nbsp;file.pdf',&nbsp;'my&nbsp;description')<br>
+-&gt;&nbsp;'[[file:foo/bar/some%20file.pdf][my&nbsp;description]]'<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-link">link</a>('file:foo/bar/some&nbsp;file.pdf',&nbsp;'my&nbsp;description',&nbsp;replacespaces=False),<br>
+-&gt;&nbsp;'[[file:foo/bar/some&nbsp;file.pdf][my&nbsp;description]]'<br>
+&nbsp;<br>
+@param&nbsp;link:&nbsp;link&nbsp;to,&nbsp;i.e.,&nbsp;file&nbsp;which&nbsp;should&nbsp;end&nbsp;up&nbsp;such&nbsp;as&nbsp;'[[file:description]]'<br>
+@param&nbsp;description:&nbsp;optional<br>
+@param&nbsp;replacespaces:&nbsp;if&nbsp;True&nbsp;(default),&nbsp;spaces&nbsp;within&nbsp;link&nbsp;are&nbsp;being&nbsp;sanitized</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-newsgroup_link"><strong>newsgroup_link</strong></a>(newsgroup_string:str) -&gt; str</dt><dd><tt><a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-newsgroup_link">newsgroup_link</a>('foo')<br>
+-&gt;&nbsp;'[[news:foo][foo]]'<br>
+&nbsp;<br>
+Note&nbsp;that&nbsp;there&nbsp;is&nbsp;no&nbsp;check&nbsp;on&nbsp;the&nbsp;validy&nbsp;or&nbsp;content&nbsp;of&nbsp;the<br>
+input&nbsp;string.<br>
+&nbsp;<br>
+@param&nbsp;newsgroup_string:&nbsp;Usenet&nbsp;name<br>
+&nbsp;&nbsp;&nbsp;&nbsp;i.e:&nbsp;news:comp.emacs<br>
+@param&nbsp;return:&nbsp;[[news:comp.emacs][comp.emacs]]</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-orgmode_timestamp_to_datetime"><strong>orgmode_timestamp_to_datetime</strong></a>(orgtime:str) -&gt; datetime.datetime</dt><dd><tt>Returns&nbsp;a&nbsp;datetime&nbsp;<a href="builtins.html#object">object</a>&nbsp;containing&nbsp;the&nbsp;time-stamp&nbsp;of&nbsp;an&nbsp;Org&nbsp;mode&nbsp;time-stamp:<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-orgmode_timestamp_to_datetime">orgmode_timestamp_to_datetime</a>('&lt;1980-12-31&nbsp;Wed&nbsp;23:59&gt;')<br>
+-&gt;&nbsp;datetime.datetime(1980,&nbsp;12,&nbsp;31,&nbsp;23,&nbsp;59,&nbsp;0,&nbsp;tzinfo=None)<br>
+&nbsp;<br>
+FIXXME:&nbsp;this&nbsp;function&nbsp;should&nbsp;be&nbsp;modified&nbsp;so&nbsp;that&nbsp;'&lt;1980-12-31&nbsp;23:59&gt;'<br>
+with&nbsp;a&nbsp;missing&nbsp;day&nbsp;of&nbsp;week&nbsp;is&nbsp;accepted&nbsp;as&nbsp;well.<br>
+&nbsp;<br>
+@param&nbsp;orgtime:&nbsp;'&lt;YYYY-MM-DD&nbsp;Sun&nbsp;HH:MM&gt;'&nbsp;or&nbsp;an&nbsp;inactive&nbsp;one<br>
+@param&nbsp;return:&nbsp;date&nbsp;time&nbsp;<a href="builtins.html#object">object</a></tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-strdate"><strong>strdate</strong></a>(date_string:str, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>returns&nbsp;a&nbsp;date&nbsp;string&nbsp;in&nbsp;org&nbsp;format<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-strdate">strdate</a>('2011-11-3')<br>
+-&gt;&nbsp;'&lt;2011-11-03&nbsp;Thu&gt;'<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-strdate">strdate</a>('2011-11-03&nbsp;23:59',&nbsp;inactive=True,&nbsp;show_time=True)<br>
+-&gt;&nbsp;'[2011-11-03&nbsp;Thu&nbsp;23:59]'<br>
+&nbsp;<br>
+@param&nbsp;date-string:&nbsp;has&nbsp;to&nbsp;be&nbsp;a&nbsp;str&nbsp;of&nbsp;the&nbsp;required&nbsp;format:&nbsp;'%Y-%M-%D&nbsp;(%H:%M(:%S))'<br>
+@param&nbsp;show_time:&nbsp;optional&nbsp;show&nbsp;time<br>
+@param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamp;&nbsp;else&nbsp;use&nbsp;active</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-strdatetimeiso8601"><strong>strdatetimeiso8601</strong></a>(datetime_string:str) -&gt; str</dt><dd><tt>returns&nbsp;a&nbsp;date&nbsp;string&nbsp;in&nbsp;org&nbsp;format<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-strdatetimeiso8601">strdatetimeiso8601</a>('2011-11-30T21.06')<br>
+-&gt;&nbsp;'&lt;2011-11-30&nbsp;Wed&nbsp;21:06&gt;'<br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-strdatetimeiso8601">strdatetimeiso8601</a>('2011-11-30T21.06.02')<br>
+-&gt;&nbsp;'&lt;2011-11-30&nbsp;Wed&nbsp;21:06&gt;'<br>
+&nbsp;<br>
+@param&nbsp;date-string:&nbsp;has&nbsp;to&nbsp;be&nbsp;a&nbsp;str&nbsp;in&nbsp;format:&nbsp;YYYY-MM-DD([T&nbsp;]HH[.:]MM([.:]SS)?)?</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-struct_time_to_datetime"><strong>struct_time_to_datetime</strong></a>(tuple_date:time.struct_time) -&gt; datetime.datetime</dt><dd><tt>Converts&nbsp;a&nbsp;time.struct_time&nbsp;argument&nbsp;to&nbsp;a&nbsp;datetime.datetime&nbsp;<a href="builtins.html#object">object</a><br>
+&nbsp;<br>
+<a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-struct_time_to_datetime">struct_time_to_datetime</a>(time.struct_time((2019,&nbsp;12,&nbsp;31,&nbsp;23,&nbsp;59,&nbsp;0,&nbsp;0,&nbsp;0,&nbsp;0)))<br>
+-&gt;&nbsp;datetime.datetime(2019,&nbsp;12,&nbsp;31,&nbsp;23,&nbsp;59,&nbsp;0,&nbsp;tzinfo=None)<br>
+&nbsp;<br>
+@param&nbsp;struct_time&nbsp;with&nbsp;potential&nbsp;wrong&nbsp;day&nbsp;of&nbsp;week</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>DATETIME_REGEX</strong> = re.compile('[12]\\d\\d\\d-[012345]\\d?-([012345]...)( \\d\\d?[:.][012345]\\d?([:.][012345]\\d?)?)?')</dl>
+
+<dl><dt><strong>ISODATETIME_REGEX</strong> = re.compile('([12]\\d\\d\\d-[012345]\\d?-([012345...](\\d\\d?[:.][012345]\\d?([:.][012345]\\d?)?))?')</dl>
+
+<dl><dt><strong>ORGMODE_TIMESTAMP_RANGE_REGEX</strong> = re.compile('([&lt;\\[]([12]\\d\\d\\d)-([012345]\\d)...23)):([012345]\\d)[&gt;\\]])-(-)?([&lt;\\[]([12]\\d\\d)</dl>
+
+<dl><dt><strong>ORGMODE_TIMESTAMP_REGEX</strong> = re.compile('([&lt;\\[]([12]\\d\\d\\d)-([012345]\\d)...(([01]\\d)|(20|21|22|23)):([012345]\\d)[&gt;\\]])$')</dl>
+
+<dl><dt><strong>SINGLE_ORGMODE_TIMESTAMP</strong> = r'([&lt;\[]([12]\d\d\d)-([012345]\d)-([012345]\d) (Mo...|Son) (([01]\d)|(20|21|22|23)):([012345]\d)[&gt;\]])'</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="TimestampParseException">class <strong>TimestampParseException</strong></a>(<a href="builtins.html#Exception">builtins.Exception</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Own&nbsp;exception&nbsp;should&nbsp;be&nbsp;raised&nbsp;when<br>
+strptime&nbsp;fails<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="orgformat.html#TimestampParseException">TimestampParseException</a></dd>
+<dd><a href="builtins.html#Exception">builtins.Exception</a></dd>
+<dd><a href="builtins.html#BaseException">builtins.BaseException</a></dd>
+<dd><a href="builtins.html#object">builtins.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="TimestampParseException-__init__"><strong>__init__</strong></a>(self, value:Union[ValueError, str]) -&gt; None</dt><dd><tt>Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<dl><dt><a name="TimestampParseException-__str__"><strong>__str__</strong></a>(self) -&gt; str</dt><dd><tt>Return&nbsp;str(self).</tt></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<hr>
+Methods inherited from <a href="builtins.html#Exception">builtins.Exception</a>:<br>
+<dl><dt><a name="TimestampParseException-__new__"><strong>__new__</strong></a>(*args, **kwargs)<font color="#909090"><font face="helvetica, arial"> from <a href="builtins.html#type">builtins.type</a></font></font></dt><dd><tt>Create&nbsp;and&nbsp;return&nbsp;a&nbsp;new&nbsp;<a href="builtins.html#object">object</a>.&nbsp;&nbsp;See&nbsp;help(type)&nbsp;for&nbsp;accurate&nbsp;signature.</tt></dd></dl>
+
+<hr>
+Methods inherited from <a href="builtins.html#BaseException">builtins.BaseException</a>:<br>
+<dl><dt><a name="TimestampParseException-__delattr__"><strong>__delattr__</strong></a>(self, name, /)</dt><dd><tt>Implement&nbsp;delattr(self,&nbsp;name).</tt></dd></dl>
+
+<dl><dt><a name="TimestampParseException-__getattribute__"><strong>__getattribute__</strong></a>(self, name, /)</dt><dd><tt>Return&nbsp;getattr(self,&nbsp;name).</tt></dd></dl>
+
+<dl><dt><a name="TimestampParseException-__reduce__"><strong>__reduce__</strong></a>(...)</dt><dd><tt>helper&nbsp;for&nbsp;pickle</tt></dd></dl>
+
+<dl><dt><a name="TimestampParseException-__repr__"><strong>__repr__</strong></a>(self, /)</dt><dd><tt>Return&nbsp;repr(self).</tt></dd></dl>
+
+<dl><dt><a name="TimestampParseException-__setattr__"><strong>__setattr__</strong></a>(self, name, value, /)</dt><dd><tt>Implement&nbsp;setattr(self,&nbsp;name,&nbsp;value).</tt></dd></dl>
+
+<dl><dt><a name="TimestampParseException-__setstate__"><strong>__setstate__</strong></a>(...)</dt></dl>
+
+<dl><dt><a name="TimestampParseException-with_traceback"><strong>with_traceback</strong></a>(...)</dt><dd><tt><a href="builtins.html#Exception">Exception</a>.<a href="#TimestampParseException-with_traceback">with_traceback</a>(tb)&nbsp;--<br>
+set&nbsp;self.<strong>__traceback__</strong>&nbsp;to&nbsp;tb&nbsp;and&nbsp;return&nbsp;self.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="builtins.html#BaseException">builtins.BaseException</a>:<br>
+<dl><dt><strong>__cause__</strong></dt>
+<dd><tt>exception&nbsp;cause</tt></dd>
+</dl>
+<dl><dt><strong>__context__</strong></dt>
+<dd><tt>exception&nbsp;context</tt></dd>
+</dl>
+<dl><dt><strong>__dict__</strong></dt>
+</dl>
+<dl><dt><strong>__suppress_context__</strong></dt>
+</dl>
+<dl><dt><strong>__traceback__</strong></dt>
+</dl>
+<dl><dt><strong>args</strong></dt>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>Union</strong> = typing.Union</td></tr></table>
+</body></html>
