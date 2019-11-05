@@ -87,7 +87,9 @@ class OrgFormat(object):
         -> '<2019-11-06 Wed 00:59>'
 
         OrgFormat.apply_timedelta_to_Orgmode_timestamp('<2020-01-01 Wed 01:30>--<2020-01-01 Wed 02:00>', -2.5)
-        -> '<2019-12-31 Tue 23:00>-<2019-12-31 Tue 23:30>'
+        -> '<2019-12-31 Tue 23:00>--<2019-12-31 Tue 23:30>'
+
+        FIXXME: implement support for inactive date/time ranges
 
         @param orgtime: '<YYYY-MM-DD Sun HH:MM>'
         @param deltahours: integer/float like, e.g., 3 or -2.5 (in hours)
@@ -105,7 +107,7 @@ class OrgFormat(object):
                 OrgFormat.orgmode_timestamp_to_datetime(  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
                     range_components.groups(0)[0]) +  # type: ignore  # FIXXME why
                 datetime.timedelta(0, 0, 0, 0, 0, deltahours)) + \
-                "-" + \
+                "--" + \
                 OrgFormat.datetime(
                     OrgFormat.orgmode_timestamp_to_datetime(  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
                         range_components.groups(0)[10]) +  # type: ignore  # FIXXME why
