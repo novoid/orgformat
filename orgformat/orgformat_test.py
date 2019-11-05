@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: <2019-11-05 22:15:55 vk>
+# Time-stamp: <2019-11-05 22:35:27 vk>
 
 import unittest
 import time
@@ -337,9 +337,6 @@ class TestOrgFormat(unittest.TestCase):
         self.assertEqual(OrgFormat.dhms_from_sec(9999), '2:46:39')
         self.assertEqual(OrgFormat.dhms_from_sec(99999), '1d 3:46:39')
         self.assertEqual(OrgFormat.dhms_from_sec(12345678), '142d 21:21:18')
-
-    #def test_(self):
-        #self.assertEqual(OrgFormat.
 
 # Local Variables:
 # End:

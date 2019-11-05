@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-11-05 22:19:15 vk>
+# Time-stamp: <2019-11-05 22:35:12 vk>
 
 import time
 import datetime
@@ -41,7 +41,7 @@ class OrgFormat(object):
     ORGMODE_TIMESTAMP_RANGE_REGEX = re.compile(
         SINGLE_ORGMODE_TIMESTAMP + "-(-)?" + SINGLE_ORGMODE_TIMESTAMP + "$")
 
-    ISODATETIME_REGEX = re.compile('([12]\d\d\d-[012345]\d?-([012345]\d?))' + \
+    ISODATETIME_REGEX = re.compile('([12]\d\d\d-[012345]\d?-([012345]\d?))' +
                                    '([T ]((\d\d?[:.][012345]\d?)([:.][012345]\d?)?))?')
 
     @staticmethod
@@ -63,8 +63,10 @@ class OrgFormat(object):
 
         components = re.match(OrgFormat.ORGMODE_TIMESTAMP_REGEX, orgtime)
         if not components:
-            raise TimestampParseException("string could not be parsed as time-stamp of format \"<YYYY-MM-DD Sun " +
-                                          "HH:MM>\" (including inactive ones): \"" + orgtime + "\"")
+            raise TimestampParseException("string could not be parsed as " +
+                                          "time-stamp of format \"<YYYY-MM-DD Sun " +
+                                          "HH:MM>\" (including inactive ones): \"" +
+                                          orgtime + "\"")
 
         year = int(components.group(2))    # type: ignore  # FIXXME why
         month = int(components.group(3))   # type: ignore  # FIXXME why
@@ -265,9 +267,11 @@ class OrgFormat(object):
                 end_tuple.tm_min == 0 and \
                 end_tuple.tm_hour == 0:
 
-            return OrgFormat.daterange(begin_tuple, end_tuple, show_time = False, inactive = inactive)
+            return OrgFormat.daterange(begin_tuple, end_tuple,
+                                       show_time=False, inactive=inactive)
         else:
-            return OrgFormat.daterange(begin_tuple, end_tuple, show_time = True, inactive = inactive)
+            return OrgFormat.daterange(begin_tuple, end_tuple,
+                                       show_time=True, inactive=inactive)
 
     @staticmethod
     def strdate(date_string: str, show_time: bool = False, inactive: bool = False) -> str:
@@ -405,9 +409,7 @@ class OrgFormat(object):
         except ValueError as e:
             raise TimestampParseException(e)
 
-        assert(False)  # dead code for assuring mypy that everything
-                       # above is handled by a return or raising
-                       # exception statement
+        assert(False)  # dead code for assuring mypy that everything above is handled by a return or raising exception statement
 
     @staticmethod
     def link(link: str, description: str = None, replacespaces: bool = True) -> str:
@@ -514,7 +516,8 @@ class OrgFormat(object):
         minutes = (sec // 60) % 60
         hours = (sec // (60 * 60))
 
-        return str(hours) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2)
+        return str(hours) + ":" + str(minutes).zfill(2) + ":" + \
+            str(seconds).zfill(2)
 
     @staticmethod
     def dhms_from_sec(sec: int) -> str:
@@ -544,7 +547,8 @@ class OrgFormat(object):
             daystring = str(days) + "d "
         else:
             daystring = ''
-        return daystring + str(hours) + ":" + str(minutes).zfill(2) + ":" + str(seconds).zfill(2)
+        return daystring + str(hours) + ":" + str(minutes).zfill(2) + \
+            ":" + str(seconds).zfill(2)
 
 
 # Local Variables:
