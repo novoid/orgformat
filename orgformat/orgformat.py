@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-11-05 22:35:12 vk>
+# Time-stamp: <2019-11-06 01:04:33 vk>
 
 import time
 import datetime
@@ -307,23 +307,6 @@ class OrgFormat(object):
                                           'the required format for %Y-%M-%D (%H.%M(.%S)): ' +
                                           str(date_string))
         assert False  # to satisfy mypy 0.740: "Missing return statement"
-
-#    @staticmethod
-#    def strdatetimeiso8601(datetime_string: str) -> str:
-#        """
-#        returns a date string in org format
-#
-#        OrgFormat.strdatetimeiso8601('2011-11-30T21.06')
-#        -> '<2011-11-30 Wed 21:06>'
-#
-#        OrgFormat.strdatetimeiso8601('2011-11-30T21.06.02')
-#        -> '<2011-11-30 Wed 21:06>'
-#
-#        @param date-string: has to be a str in format: YYYY-MM-DD([T ]HH[.:]MM([.:]SS)?)?
-#        """
-#        assert isinstance(datetime_string, str)
-#        tuple_date = OrgFormat.parse_extended_iso_datetime(datetime_string)
-#        return OrgFormat.date(tuple_date, show_time=True)
 
     @staticmethod
     def parse_extended_iso_datetime(datetime_string: str) -> time.struct_time:
