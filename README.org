@@ -6,13 +6,14 @@ date-stamps.
 
 ** Documentation
 
-You can find the [[http://htmlpreview.github.io/?https://github.com/novoid/orgformat/blob/master/orgformat.html][pydoc documentation in HTML here]].
+You can find the [[http://htmlpreview.github.io/?https://github.com/novoid/orgformat/blob/master/orgformat.html][pydoc documentation in HTML here]]. Sorry for the
+default colors of pydoc.
 
 ** Installation
 
 This tool needs [[http://www.python.org/downloads/][Python 3 to be installed]].
 
-You can install filetags via [[https://packaging.python.org/tutorials/installing-packages/][pip]]:
+You can install orgformat stand-alone via [[https://packaging.python.org/tutorials/installing-packages/][pip]]:
 
 : pip3 install orgformat
 
@@ -24,8 +25,11 @@ project and installed when you do invoke:
 
 ** Changelog
 
+This changelog does not list all commits/changes, just the substantial
+ones.
+
 - 2019-11-03: Finished moving from Memacs and lazyblorg to a separate library
-- 2019-11-05:
+- 2019-11-06:
   - [[https://www.python.org/dev/peps/pep-0484/][Python type annotations]] added for [[https://mypy.readthedocs.io/en/latest/index.html][mypy]] checks
   - Refactoring, simplification, unification:
     - more parameters for =show_time= and =inactive=
