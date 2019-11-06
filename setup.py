@@ -7,7 +7,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name="orgformat",
-    version="2019.11.05.1",
+    version="2019.11.06.1",
     description="Utility library for providing functions to generate and modify Org mode syntax elements like links, time-stamps, or date-stamps.",
     license='GPLv3',
     author="Karl Voit",
