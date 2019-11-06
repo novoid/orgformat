@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-11-06 01:04:33 vk>
+# Time-stamp: <2019-11-06 15:44:24 vk>
 
 import time
 import datetime
@@ -293,10 +293,15 @@ class OrgFormat(object):
         if components:
             if components.group(1) and components.group(5):
                 # found %Y-%m-%d %H:%M  ; don't care about the seconds
-                tuple_date = time.strptime(components.group(1) + 'T' +
-                                           components.group(5).replace(':', '.'),
-                                           "%Y-%m-%dT%H.%M")
-                return OrgFormat.date(tuple_date, show_time=show_time, inactive=inactive)
+                try:
+                    tuple_date = time.strptime(components.group(1) + 'T' +
+                                               components.group(5).replace(':', '.'),
+                                               "%Y-%m-%dT%H.%M")
+                    return OrgFormat.date(tuple_date, show_time=show_time, inactive=inactive)
+                except ValueError:
+                    raise TimestampParseException('The provided time-stamp string does not match ' +
+                                                  'the required format for %Y-%M-%D %H.%M(.%S) or ' +
+                                                  'is an invalid date/time.')
             elif components.group(1):
                 # found %Y-%m-%d
                 tuple_date = time.strptime(components.group(1),

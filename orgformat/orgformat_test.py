@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: <2019-11-05 22:35:27 vk>
+# Time-stamp: <2019-11-06 15:41:22 vk>
 
 import unittest
 import time
@@ -199,30 +199,23 @@ class TestOrgFormat(unittest.TestCase):
 
         with self.assertRaises(TimestampParseException):
             OrgFormat.strdate('foo')
-
-        #######################
+        with self.assertRaises(TimestampParseException):
+            OrgFormat.strdate('2019-04-31 23:59')
 
         self.assertEqual(OrgFormat.strdate('2011-11-30T21.06', show_time=True),
                          '<2011-11-30 Wed 21:06>')
-
         self.assertEqual(OrgFormat.strdate('2011-11-30T21.06.00', show_time=True),
                          '<2011-11-30 Wed 21:06>')
-
         self.assertEqual(OrgFormat.strdate('2011-11-30T21.06.02', show_time=True),
                          '<2011-11-30 Wed 21:06>')
-
         self.assertEqual(OrgFormat.strdate('1899-12-30T21.06.02', show_time=True),
                          '<1899-12-30 Sat 21:06>')
-
         self.assertEqual(OrgFormat.strdate('2011-11-30 21.06', show_time=True),
                          '<2011-11-30 Wed 21:06>')
-
         self.assertEqual(OrgFormat.strdate('2011-11-30 21.06.02', show_time=True),
                          '<2011-11-30 Wed 21:06>')
-
         self.assertEqual(OrgFormat.strdate('2011-11-30 21:06:02', show_time=True),
                          '<2011-11-30 Wed 21:06>')
-
         self.assertEqual(OrgFormat.strdate('2011-11-30 21:06', show_time=True),
                          '<2011-11-30 Wed 21:06>')
 
