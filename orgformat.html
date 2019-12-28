@@ -11,7 +11,7 @@
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:orgformat/orgformat/orgformat.py">orgformat/orgformat/orgformat.py</a></font></td></tr></table>
     <p><tt>#&nbsp;Find&nbsp;much&nbsp;more&nbsp;example&nbsp;calls&nbsp;in&nbsp;the&nbsp;unit&nbsp;test&nbsp;file&nbsp;orgformat_test.py<br>
 #&nbsp;-*-&nbsp;coding:&nbsp;utf-8;&nbsp;mode:&nbsp;python;&nbsp;-*-<br>
-#&nbsp;Time-stamp:&nbsp;&lt;2019-11-05&nbsp;22:35:12&nbsp;vk&gt;</tt></p>
+#&nbsp;Time-stamp:&nbsp;&lt;2019-12-28&nbsp;17:14:36&nbsp;vk&gt;</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -147,6 +147,24 @@ the&nbsp;part&nbsp;of&nbsp;the&nbsp;days&nbsp;(like&nbsp;"13:59:59").<br>
 &nbsp;<br>
 returns&nbsp;struct_time&nbsp;timestamp&nbsp;with&nbsp;correct&nbsp;day&nbsp;of&nbsp;week<br>
 @param&nbsp;struct_time&nbsp;with&nbsp;potential&nbsp;false&nbsp;day&nbsp;of&nbsp;week</tt></dd></dl>
+
+<dl><dt><a name="OrgFormat-generate_heading"><strong>generate_heading</strong></a>(level:int, keyword:Union[str, NoneType]=None, priority:Union[str, NoneType]=None, title:Union[str, NoneType]=None, tags:Union[List[str], NoneType]=None, properties:Union[List[Tuple[str, str]], NoneType]=None, section:Union[str, NoneType]=None) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;(potential&nbsp;multi-line)&nbsp;string&nbsp;with&nbsp;an&nbsp;Org&nbsp;mode&nbsp;heading&nbsp;that&nbsp;is&nbsp;generated&nbsp;<br>
+from&nbsp;the&nbsp;data&nbsp;within&nbsp;the&nbsp;parameters&nbsp;given.<br>
+&nbsp;<br>
+The&nbsp;only&nbsp;mandatory&nbsp;parameter&nbsp;is&nbsp;the&nbsp;level&nbsp;of&nbsp;the&nbsp;heading&nbsp;since&nbsp;'**&nbsp;'&nbsp;is&nbsp;a&nbsp;valid&nbsp;heading.<br>
+&nbsp;<br>
+No&nbsp;content&nbsp;or&nbsp;syntax&nbsp;validation&nbsp;is&nbsp;done&nbsp;here&nbsp;yet&nbsp;(FIXXME).<br>
+&nbsp;<br>
+Parameter&nbsp;names&nbsp;are&nbsp;taken&nbsp;from&nbsp;https://orgmode.org/worg/dev/org-syntax.html&nbsp;if&nbsp;applicable:<br>
+&nbsp;<br>
+@param&nbsp;level:&nbsp;the&nbsp;level&nbsp;of&nbsp;the&nbsp;heading&nbsp;which&nbsp;is&nbsp;the&nbsp;amount&nbsp;of&nbsp;asterisks&nbsp;used<br>
+@param&nbsp;keyword:&nbsp;is&nbsp;a&nbsp;TODO&nbsp;keyword,&nbsp;which&nbsp;has&nbsp;to&nbsp;belong&nbsp;to&nbsp;the&nbsp;list&nbsp;defined&nbsp;in&nbsp;org-todo-keywords-1.&nbsp;Case&nbsp;is&nbsp;significant.<br>
+@param&nbsp;priority:&nbsp;is&nbsp;a&nbsp;priority&nbsp;cookie,&nbsp;a&nbsp;single&nbsp;letter&nbsp;-&nbsp;which&nbsp;will&nbsp;then&nbsp;preceded&nbsp;by&nbsp;a&nbsp;hash&nbsp;sign&nbsp;#&nbsp;and&nbsp;enclosed&nbsp;within&nbsp;square&nbsp;brackets.<br>
+@param&nbsp;title:&nbsp;can&nbsp;be&nbsp;made&nbsp;of&nbsp;any&nbsp;character&nbsp;but&nbsp;a&nbsp;new&nbsp;line.<br>
+@param&nbsp;tags:&nbsp;a&nbsp;list&nbsp;of&nbsp;valid&nbsp;tags&nbsp;without&nbsp;colons<br>
+@param&nbsp;properties:&nbsp;a&nbsp;list&nbsp;of&nbsp;name/value&nbsp;tuples<br>
+@param&nbsp;section:&nbsp;the&nbsp;body&nbsp;of&nbsp;this&nbsp;heading<br>
+@param&nbsp;return:&nbsp;the&nbsp;generated&nbsp;Org&nbsp;mode&nbsp;heading</tt></dd></dl>
 
 <dl><dt><a name="OrgFormat-hms_from_sec"><strong>hms_from_sec</strong></a>(sec:int) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;of&nbsp;hours:minutes:seconds&nbsp;from&nbsp;the&nbsp;seconds&nbsp;given.<br>
 &nbsp;<br>
@@ -346,5 +364,6 @@ Data descriptors inherited from <a href="builtins.html#BaseException">builtins.B
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>Union</strong> = typing.Union</td></tr></table>
+<td width="100%"><strong>Optional</strong> = typing.Optional<br>
+<strong>Union</strong> = typing.Union</td></tr></table>
 </body></html>

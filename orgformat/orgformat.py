@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-11-06 15:44:24 vk>
+# Time-stamp: <2019-12-28 17:14:36 vk>
 
 import time
 import datetime
 import calendar
 import logging
 import re
-from typing import List, Union, Tuple  # mypy: type checks
+from typing import List, Union, Tuple, Optional  # mypy: type checks
 
 
 class TimestampParseException(Exception):
@@ -538,6 +538,48 @@ class OrgFormat(object):
         return daystring + str(hours) + ":" + str(minutes).zfill(2) + \
             ":" + str(seconds).zfill(2)
 
+    @staticmethod
+    def generate_heading(level: int, keyword: Optional[str] = None, priority: Optional[str] = None,
+                         title: Optional[str] = None, tags: Optional[List[str]] = None,
+                         properties: Optional[List[Tuple[str, str]]] = None, section: Optional[str] = None) -> str:
+        """
+        Returns a (potential multi-line) string with an Org mode heading that is generated 
+        from the data within the parameters given.
+
+        The only mandatory parameter is the level of the heading since '** ' is a valid heading.
+
+        No content or syntax validation is done here yet (FIXXME).
+
+        Parameter names are taken from https://orgmode.org/worg/dev/org-syntax.html if applicable:
+
+        @param level: the level of the heading which is the amount of asterisks used
+        @param keyword: is a TODO keyword, which has to belong to the list defined in org-todo-keywords-1. Case is significant.
+        @param priority: is a priority cookie, a single letter - which will then preceded by a hash sign # and enclosed within square brackets.
+        @param title: can be made of any character but a new line.
+        @param tags: a list of valid tags without colons
+        @param properties: a list of name/value tuples
+        @param section: the body of this heading
+        @param return: the generated Org mode heading
+        """
+
+        result = '*' * level + ' '
+        if keyword:
+            result += keyword + ' '
+        if priority:
+            result += '[#' + priority + '] '
+        if title:
+            result += title
+        if tags:
+            result += '  :' + ':'.join(tags) + ':'
+        result += '\n'
+        if properties:
+            result += ':PROPERTIES:\n'
+            for myproperty in properties:
+                result += ':' + myproperty[0] + ': ' + myproperty[1] + '\n'
+            result += ':END:\n'
+        if section:
+            result += '\n' + section.rstrip() + '\n'
+        return result
 
 # Local Variables:
 # End:

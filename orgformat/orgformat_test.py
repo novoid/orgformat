@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: <2019-11-06 15:41:22 vk>
+# Time-stamp: <2019-12-28 17:22:54 vk>
 
 import unittest
 import time
@@ -330,6 +330,86 @@ class TestOrgFormat(unittest.TestCase):
         self.assertEqual(OrgFormat.dhms_from_sec(9999), '2:46:39')
         self.assertEqual(OrgFormat.dhms_from_sec(99999), '1d 3:46:39')
         self.assertEqual(OrgFormat.dhms_from_sec(12345678), '142d 21:21:18')
+
+    def test_generate_heading(self):
+
+        ## minimal heading with all parameters provided:
+        self.assertEqual(OrgFormat.generate_heading(level=2,
+                                                    keyword=None,
+                                                    priority=None,
+                                                    title=None,
+                                                    tags=None,
+                                                    properties=None,
+                                                    section=None),
+                         '** \n')
+
+        ## maximal heading with all parameters as named parameters:
+        self.assertEqual(OrgFormat.generate_heading(level=1,
+                                                    keyword='TODO',
+                                                    priority='A',
+                                                    title='This is my title',
+                                                    tags=['foo', 'bar_baz'],
+                                                    properties=[('CREATED', OrgFormat.strdate('2011-11-03 23:59', inactive=True, show_time=True)),
+                                                                ('myproperty','foo bar baz')],
+                                                    section=' With this being\nthe content of the heading section.'),
+'''* TODO [#A] This is my title  :foo:bar_baz:
+:PROPERTIES:
+:CREATED: [2011-11-03 Thu 23:59]
+:myproperty: foo bar baz
+:END:
+
+ With this being
+the content of the heading section.
+''')
+
+        ## maximal heading with all parameters as positional parameters:
+        self.assertEqual(OrgFormat.generate_heading(1,
+                                                    'TODO',
+                                                    'A',
+                                                    'This is my title',
+                                                    ['foo', 'bar_baz'],
+                                                    [('CREATED', OrgFormat.strdate('2011-11-03 23:59', inactive=True, show_time=True)),
+                                                                ('myproperty','foo bar baz')],
+                                                    ' With this being\nthe content of the heading section.'),
+'''* TODO [#A] This is my title  :foo:bar_baz:
+:PROPERTIES:
+:CREATED: [2011-11-03 Thu 23:59]
+:myproperty: foo bar baz
+:END:
+
+ With this being
+the content of the heading section.
+''')
+
+        ## heading with title + one property with all named parameters:
+        self.assertEqual(OrgFormat.generate_heading(level=3,
+                                                    keyword=None,
+                                                    priority=None,
+                                                    title='This is my title',
+                                                    tags=None,
+                                                    properties=[('CREATED', OrgFormat.strdate('2011-11-03 23:59', inactive=True, show_time=True))],
+                                                    section=None),
+'''*** This is my title
+:PROPERTIES:
+:CREATED: [2011-11-03 Thu 23:59]
+:END:
+''')
+
+        ## heading with title + one property with selected named parameters:
+        self.assertEqual(OrgFormat.generate_heading(level=3,
+                                                    title='This is my title',
+                                                    properties=[('CREATED', OrgFormat.strdate('2011-11-03 23:59', inactive=True, show_time=True))]),
+'''*** This is my title
+:PROPERTIES:
+:CREATED: [2011-11-03 Thu 23:59]
+:END:
+''')
+
+        ## simple heading:
+        self.assertEqual(OrgFormat.generate_heading(7, title='This is my title'),
+'''******* This is my title
+''')
+
 
 # Local Variables:
 # End:
