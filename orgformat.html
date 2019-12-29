@@ -11,7 +11,7 @@
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:orgformat/orgformat/orgformat.py">orgformat/orgformat/orgformat.py</a></font></td></tr></table>
     <p><tt>#&nbsp;Find&nbsp;much&nbsp;more&nbsp;example&nbsp;calls&nbsp;in&nbsp;the&nbsp;unit&nbsp;test&nbsp;file&nbsp;orgformat_test.py<br>
 #&nbsp;-*-&nbsp;coding:&nbsp;utf-8;&nbsp;mode:&nbsp;python;&nbsp;-*-<br>
-#&nbsp;Time-stamp:&nbsp;&lt;2019-12-28&nbsp;17:14:36&nbsp;vk&gt;</tt></p>
+#&nbsp;Time-stamp:&nbsp;&lt;2019-12-29&nbsp;11:56:24&nbsp;vk&gt;</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -73,7 +73,7 @@ FIXXME:&nbsp;implement&nbsp;support&nbsp;for&nbsp;inactive&nbsp;date/time&nbsp;r
 @param&nbsp;deltahours:&nbsp;integer/float&nbsp;like,&nbsp;e.g.,&nbsp;3&nbsp;or&nbsp;-2.5&nbsp;(in&nbsp;hours)<br>
 @param&nbsp;return:&nbsp;'&lt;YYYY-MM-DD&nbsp;Sun&nbsp;HH:MM&gt;'</tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-date"><strong>date</strong></a>(tuple_date:Union[time.struct_time, datetime.datetime], show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;given&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime&nbsp;to&nbsp;an&nbsp;Org&nbsp;date-&nbsp;or&nbsp;time-stamp.<br>
+<dl><dt><a name="OrgFormat-date"><strong>date</strong></a>(tuple_date:Union[time.struct_time, datetime.datetime], show_time:Union[bool, NoneType]=False, inactive:Union[bool, NoneType]=False, repeater_or_delay:Union[str, NoneType]=None) -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;given&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime&nbsp;to&nbsp;an&nbsp;Org&nbsp;date-&nbsp;or&nbsp;time-stamp.<br>
 &nbsp;<br>
 <a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-date">date</a>(time.strptime("2011-11-02T20:38:42",&nbsp;"%Y-%m-%dT%H:%M:%S"))<br>
 -&gt;&nbsp;"&lt;2011-11-02&nbsp;Wed&gt;"<br>
@@ -83,7 +83,8 @@ FIXXME:&nbsp;implement&nbsp;support&nbsp;for&nbsp;inactive&nbsp;date/time&nbsp;r
 &nbsp;<br>
 @param&nbsp;tuple_date:&nbsp;has&nbsp;to&nbsp;be&nbsp;of&nbsp;type&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime<br>
 @param&nbsp;show_time:&nbsp;optional&nbsp;show&nbsp;time<br>
-@param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamp;&nbsp;else&nbsp;use&nbsp;active</tt></dd></dl>
+@param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamp;&nbsp;else&nbsp;use&nbsp;active<br>
+@param&nbsp;repeater_or_delay:&nbsp;string&nbsp;holding&nbsp;a&nbsp;repeater&nbsp;or&nbsp;a&nbsp;delay;&nbsp;e.g.,&nbsp;'+2w'&nbsp;or&nbsp;'--5d'</tt></dd></dl>
 
 <dl><dt><a name="OrgFormat-daterange"><strong>daterange</strong></a>(begin:time.struct_time, end:time.struct_time, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;two&nbsp;given&nbsp;time.struct_time&nbsp;or&nbsp;datetime.datetime&nbsp;to&nbsp;an&nbsp;Org&nbsp;range&nbsp;of&nbsp;date-&nbsp;or&nbsp;time-stamps.<br>
 &nbsp;<br>
@@ -148,7 +149,7 @@ the&nbsp;part&nbsp;of&nbsp;the&nbsp;days&nbsp;(like&nbsp;"13:59:59").<br>
 returns&nbsp;struct_time&nbsp;timestamp&nbsp;with&nbsp;correct&nbsp;day&nbsp;of&nbsp;week<br>
 @param&nbsp;struct_time&nbsp;with&nbsp;potential&nbsp;false&nbsp;day&nbsp;of&nbsp;week</tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-generate_heading"><strong>generate_heading</strong></a>(level:int, keyword:Union[str, NoneType]=None, priority:Union[str, NoneType]=None, title:Union[str, NoneType]=None, tags:Union[List[str], NoneType]=None, properties:Union[List[Tuple[str, str]], NoneType]=None, section:Union[str, NoneType]=None) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;(potential&nbsp;multi-line)&nbsp;string&nbsp;with&nbsp;an&nbsp;Org&nbsp;mode&nbsp;heading&nbsp;that&nbsp;is&nbsp;generated&nbsp;<br>
+<dl><dt><a name="OrgFormat-generate_heading"><strong>generate_heading</strong></a>(level:int, keyword:Union[str, NoneType]=None, priority:Union[str, NoneType]=None, title:Union[str, NoneType]=None, tags:Union[List[str], NoneType]=None, scheduled_timestamp:Union[str, NoneType]=None, deadline_timestamp:Union[str, NoneType]=None, properties:Union[List[Tuple[str, str]], NoneType]=None, section:Union[str, NoneType]=None) -&gt; str</dt><dd><tt>Returns&nbsp;a&nbsp;(potential&nbsp;multi-line)&nbsp;string&nbsp;with&nbsp;an&nbsp;Org&nbsp;mode&nbsp;heading&nbsp;that&nbsp;is&nbsp;generated<br>
 from&nbsp;the&nbsp;data&nbsp;within&nbsp;the&nbsp;parameters&nbsp;given.<br>
 &nbsp;<br>
 The&nbsp;only&nbsp;mandatory&nbsp;parameter&nbsp;is&nbsp;the&nbsp;level&nbsp;of&nbsp;the&nbsp;heading&nbsp;since&nbsp;'**&nbsp;'&nbsp;is&nbsp;a&nbsp;valid&nbsp;heading.<br>
@@ -162,6 +163,8 @@ Parameter&nbsp;names&nbsp;are&nbsp;taken&nbsp;from&nbsp;https://orgmode.org/worg
 @param&nbsp;priority:&nbsp;is&nbsp;a&nbsp;priority&nbsp;cookie,&nbsp;a&nbsp;single&nbsp;letter&nbsp;-&nbsp;which&nbsp;will&nbsp;then&nbsp;preceded&nbsp;by&nbsp;a&nbsp;hash&nbsp;sign&nbsp;#&nbsp;and&nbsp;enclosed&nbsp;within&nbsp;square&nbsp;brackets.<br>
 @param&nbsp;title:&nbsp;can&nbsp;be&nbsp;made&nbsp;of&nbsp;any&nbsp;character&nbsp;but&nbsp;a&nbsp;new&nbsp;line.<br>
 @param&nbsp;tags:&nbsp;a&nbsp;list&nbsp;of&nbsp;valid&nbsp;tags&nbsp;without&nbsp;colons<br>
+@param&nbsp;scheduled_timestamp:&nbsp;a&nbsp;string&nbsp;with&nbsp;a&nbsp;formatted&nbsp;date-&nbsp;or&nbsp;time-stamp<br>
+@param&nbsp;deadline_timestamp:&nbsp;a&nbsp;string&nbsp;with&nbsp;a&nbsp;formatted&nbsp;date-&nbsp;or&nbsp;time-stamp<br>
 @param&nbsp;properties:&nbsp;a&nbsp;list&nbsp;of&nbsp;name/value&nbsp;tuples<br>
 @param&nbsp;section:&nbsp;the&nbsp;body&nbsp;of&nbsp;this&nbsp;heading<br>
 @param&nbsp;return:&nbsp;the&nbsp;generated&nbsp;Org&nbsp;mode&nbsp;heading</tt></dd></dl>
@@ -256,7 +259,7 @@ zone&nbsp;designator&nbsp;('Z')&nbsp;into&nbsp;a&nbsp;time.struct_time.<br>
 &nbsp;<br>
 @param&nbsp;datetime_string:&nbsp;YYYY-MM-DD([T&nbsp;]HH[.:]MM([.:]SS)?)?</tt></dd></dl>
 
-<dl><dt><a name="OrgFormat-strdate"><strong>strdate</strong></a>(date_string:str, show_time:bool=False, inactive:bool=False) -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;ISO&nbsp;8601&nbsp;like&nbsp;time-&nbsp;or&nbsp;date-stamp&nbsp;into&nbsp;a&nbsp;time-&nbsp;or&nbsp;date-stamp&nbsp;in&nbsp;org&nbsp;format.<br>
+<dl><dt><a name="OrgFormat-strdate"><strong>strdate</strong></a>(date_string:str, show_time:Union[bool, NoneType]=False, inactive:Union[bool, NoneType]=False, repeater_or_delay:Union[str, NoneType]=None) -&gt; str</dt><dd><tt>Converts&nbsp;a&nbsp;ISO&nbsp;8601&nbsp;like&nbsp;time-&nbsp;or&nbsp;date-stamp&nbsp;into&nbsp;a&nbsp;time-&nbsp;or&nbsp;date-stamp&nbsp;in&nbsp;org&nbsp;format.<br>
 &nbsp;<br>
 <a href="#OrgFormat">OrgFormat</a>.<a href="#OrgFormat-strdate">strdate</a>('2011-11-3')<br>
 -&gt;&nbsp;'&lt;2011-11-03&nbsp;Thu&gt;'<br>
@@ -266,7 +269,8 @@ zone&nbsp;designator&nbsp;('Z')&nbsp;into&nbsp;a&nbsp;time.struct_time.<br>
 &nbsp;<br>
 @param&nbsp;date-string:&nbsp;has&nbsp;to&nbsp;be&nbsp;a&nbsp;str&nbsp;of&nbsp;the&nbsp;required&nbsp;format:&nbsp;'%Y-%M-%D&nbsp;(%H:%M(:%S))'<br>
 @param&nbsp;show_time:&nbsp;optional&nbsp;show&nbsp;time<br>
-@param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamp;&nbsp;else&nbsp;use&nbsp;active</tt></dd></dl>
+@param&nbsp;inactive:&nbsp;(boolean)&nbsp;True:&nbsp;use&nbsp;inactive&nbsp;time-stamp;&nbsp;else&nbsp;use&nbsp;active<br>
+@param&nbsp;repeater_or_delay:&nbsp;string&nbsp;holding&nbsp;a&nbsp;repeater&nbsp;or&nbsp;a&nbsp;delay;&nbsp;e.g.,&nbsp;'+2w'&nbsp;or&nbsp;'--5d'</tt></dd></dl>
 
 <dl><dt><a name="OrgFormat-struct_time_to_datetime"><strong>struct_time_to_datetime</strong></a>(tuple_date:time.struct_time) -&gt; datetime.datetime</dt><dd><tt>Converts&nbsp;a&nbsp;time.struct_time&nbsp;argument&nbsp;to&nbsp;a&nbsp;datetime.datetime&nbsp;<a href="builtins.html#object">object</a><br>
 &nbsp;<br>

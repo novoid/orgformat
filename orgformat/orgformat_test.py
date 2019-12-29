@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: <2019-12-28 17:22:54 vk>
+# Time-stamp: <2019-12-29 11:59:19 vk>
 
 import unittest
 import time
@@ -93,6 +93,14 @@ class TestOrgFormat(unittest.TestCase):
                          '[2011-11-02 Wed 20:38]')
         self.assertEqual(OrgFormat.date(time.strptime('2011-11-02T20:38', '%Y-%m-%dT%H:%M'), inactive=True, show_time=True),
                          '[2011-11-02 Wed 20:38]')
+
+        ## testing repeater_or_delay:
+        self.assertEqual(OrgFormat.date(time.strptime('2011-11-02T20:38', '%Y-%m-%dT%H:%M'), inactive=False,
+                                        repeater_or_delay='+2w '),
+                         '<2011-11-02 Wed +2w>')
+        self.assertEqual(OrgFormat.date(time.strptime('2011-11-02T20:38:42', '%Y-%m-%dT%H:%M:%S'), inactive=True, show_time=True,
+                                        repeater_or_delay=' ++1m '),
+                         '[2011-11-02 Wed 20:38 ++1m]')
 
     def test_daterange(self):
 
@@ -219,6 +227,11 @@ class TestOrgFormat(unittest.TestCase):
         self.assertEqual(OrgFormat.strdate('2011-11-30 21:06', show_time=True),
                          '<2011-11-30 Wed 21:06>')
 
+        ## testing repeater_or_delay: (more verbose tests done with test_date())
+        self.assertEqual(OrgFormat.strdate('2011-11-30 21:06', show_time=True, repeater_or_delay=' +7y   '),
+                         '<2011-11-30 Wed 21:06 +7y>')
+
+
     def test_parse_extended_iso_datetime(self):
 
         # NOTE: time.strptime() returns a time.struct_time
@@ -339,6 +352,8 @@ class TestOrgFormat(unittest.TestCase):
                                                     priority=None,
                                                     title=None,
                                                     tags=None,
+                                                    scheduled_timestamp=None,
+                                                    deadline_timestamp=None,
                                                     properties=None,
                                                     section=None),
                          '** \n')
@@ -349,29 +364,13 @@ class TestOrgFormat(unittest.TestCase):
                                                     priority='A',
                                                     title='This is my title',
                                                     tags=['foo', 'bar_baz'],
+                                                    scheduled_timestamp='<2019-12-29 Sun 11:35>',
+                                                    deadline_timestamp='<2019-12-30 Mon 23:59>',
                                                     properties=[('CREATED', OrgFormat.strdate('2011-11-03 23:59', inactive=True, show_time=True)),
                                                                 ('myproperty','foo bar baz')],
                                                     section=' With this being\nthe content of the heading section.'),
 '''* TODO [#A] This is my title  :foo:bar_baz:
-:PROPERTIES:
-:CREATED: [2011-11-03 Thu 23:59]
-:myproperty: foo bar baz
-:END:
-
- With this being
-the content of the heading section.
-''')
-
-        ## maximal heading with all parameters as positional parameters:
-        self.assertEqual(OrgFormat.generate_heading(1,
-                                                    'TODO',
-                                                    'A',
-                                                    'This is my title',
-                                                    ['foo', 'bar_baz'],
-                                                    [('CREATED', OrgFormat.strdate('2011-11-03 23:59', inactive=True, show_time=True)),
-                                                                ('myproperty','foo bar baz')],
-                                                    ' With this being\nthe content of the heading section.'),
-'''* TODO [#A] This is my title  :foo:bar_baz:
+SCHEDULED: <2019-12-29 Sun 11:35> DEADLINE: <2019-12-30 Mon 23:59>
 :PROPERTIES:
 :CREATED: [2011-11-03 Thu 23:59]
 :myproperty: foo bar baz
@@ -408,6 +407,29 @@ the content of the heading section.
         ## simple heading:
         self.assertEqual(OrgFormat.generate_heading(7, title='This is my title'),
 '''******* This is my title
+''')
+
+        ## simple heading with section:
+        self.assertEqual(OrgFormat.generate_heading(7, title='This is my title', section='Let\'s test the format here.'),
+'''******* This is my title
+
+Let's test the format here.
+''')
+
+        ## simple heading with section and DEADLINE:
+        self.assertEqual(OrgFormat.generate_heading(7, deadline_timestamp='<2019-12-29 Sun>', title='This is my title', section='Let\'s test the format here.'),
+'''******* This is my title
+DEADLINE: <2019-12-29 Sun>
+
+Let's test the format here.
+''')
+
+        ## simple heading with section and SCHEDULED:
+        self.assertEqual(OrgFormat.generate_heading(7, scheduled_timestamp='<2019-12-29 Sun>', title='This is my title', section='Let\'s test the format here.'),
+'''******* This is my title
+SCHEDULED: <2019-12-29 Sun>
+
+Let's test the format here.
 ''')
 
 

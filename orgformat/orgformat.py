@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-12-28 17:14:36 vk>
+# Time-stamp: <2019-12-29 11:58:22 vk>
 
 import time
 import datetime
@@ -176,7 +176,10 @@ class OrgFormat(object):
                                  0, 0))
 
     @staticmethod
-    def date(tuple_date: Union[time.struct_time, datetime.datetime], show_time: bool = False, inactive: bool = False) -> str:
+    def date(tuple_date: Union[time.struct_time, datetime.datetime],
+             show_time: Optional[bool] = False,
+             inactive: Optional[bool] = False,
+             repeater_or_delay: Optional[str] = None) -> str:
         """
         Converts a given time.struct_time or datetime.datetime to an Org date- or time-stamp.
 
@@ -189,6 +192,7 @@ class OrgFormat(object):
         @param tuple_date: has to be of type time.struct_time or datetime.datetime
         @param show_time: optional show time
         @param inactive: (boolean) True: use inactive time-stamp; else use active
+        @param repeater_or_delay: string holding a repeater or a delay; e.g., '+2w' or '--5d'
         """
         # <YYYY-MM-DD hh:mm>
         assert (tuple_date.__class__ ==
@@ -203,16 +207,19 @@ class OrgFormat(object):
             # convert datetime to struc_time
             local_structtime = OrgFormat.datetime_to_struct_time(tuple_date)
 
+        result = ''
         if show_time:
-            if inactive:
-                return time.strftime("[%Y-%m-%d %a %H:%M]", local_structtime)
-            else:
-                return time.strftime("<%Y-%m-%d %a %H:%M>", local_structtime)
+            result = time.strftime("%Y-%m-%d %a %H:%M", local_structtime)
         else:
-            if inactive:
-                return time.strftime("[%Y-%m-%d %a]", local_structtime)
-            else:
-                return time.strftime("<%Y-%m-%d %a>", local_structtime)
+            result = time.strftime("%Y-%m-%d %a", local_structtime)
+            
+        if repeater_or_delay:
+            result += ' ' + repeater_or_delay.strip()
+            
+        if inactive:
+            return '[' + result + ']'
+        else:
+            return '<' + result + '>'
 
     @staticmethod
     def daterange(begin: time.struct_time, end: time.struct_time, show_time: bool = False, inactive: bool = False) -> str:
@@ -274,7 +281,10 @@ class OrgFormat(object):
                                        show_time=True, inactive=inactive)
 
     @staticmethod
-    def strdate(date_string: str, show_time: bool = False, inactive: bool = False) -> str:
+    def strdate(date_string: str,
+                show_time: Optional[bool] = False,
+                inactive: Optional[bool] = False,
+                repeater_or_delay: Optional[str] = None) -> str:
         """
         Converts a ISO 8601 like time- or date-stamp into a time- or date-stamp in org format.
 
@@ -287,6 +297,7 @@ class OrgFormat(object):
         @param date-string: has to be a str of the required format: '%Y-%M-%D (%H:%M(:%S))'
         @param show_time: optional show time
         @param inactive: (boolean) True: use inactive time-stamp; else use active
+        @param repeater_or_delay: string holding a repeater or a delay; e.g., '+2w' or '--5d'
         """
         assert isinstance(date_string, str)
         components = re.match(OrgFormat.ISODATETIME_REGEX, date_string)
@@ -297,7 +308,7 @@ class OrgFormat(object):
                     tuple_date = time.strptime(components.group(1) + 'T' +
                                                components.group(5).replace(':', '.'),
                                                "%Y-%m-%dT%H.%M")
-                    return OrgFormat.date(tuple_date, show_time=show_time, inactive=inactive)
+                    return OrgFormat.date(tuple_date, show_time=show_time, inactive=inactive, repeater_or_delay=repeater_or_delay)
                 except ValueError:
                     raise TimestampParseException('The provided time-stamp string does not match ' +
                                                   'the required format for %Y-%M-%D %H.%M(.%S) or ' +
@@ -306,7 +317,7 @@ class OrgFormat(object):
                 # found %Y-%m-%d
                 tuple_date = time.strptime(components.group(1),
                                            "%Y-%m-%d")
-                return OrgFormat.date(tuple_date, show_time=show_time, inactive=inactive)
+                return OrgFormat.date(tuple_date, show_time=show_time, inactive=inactive, repeater_or_delay=repeater_or_delay)
         else:
             raise TimestampParseException('The provided date string does not match ' +
                                           'the required format for %Y-%M-%D (%H.%M(.%S)): ' +
@@ -400,7 +411,7 @@ class OrgFormat(object):
         assert(False)  # dead code for assuring mypy that everything above is handled by a return or raising exception statement
 
     @staticmethod
-    def link(link: str, description: str = None, replacespaces: bool = True) -> str:
+    def link(link: str, description: Optional[str] = None, replacespaces: Optional[bool] = True) -> str:
         """
         returns link-string as an Org mode link
 
@@ -539,11 +550,17 @@ class OrgFormat(object):
             ":" + str(seconds).zfill(2)
 
     @staticmethod
-    def generate_heading(level: int, keyword: Optional[str] = None, priority: Optional[str] = None,
-                         title: Optional[str] = None, tags: Optional[List[str]] = None,
-                         properties: Optional[List[Tuple[str, str]]] = None, section: Optional[str] = None) -> str:
+    def generate_heading(level: int,
+                         keyword: Optional[str] = None,
+                         priority: Optional[str] = None,
+                         title: Optional[str] = None,
+                         tags: Optional[List[str]] = None,
+                         scheduled_timestamp: Optional[str] = None,
+                         deadline_timestamp: Optional[str] = None,
+                         properties: Optional[List[Tuple[str, str]]] = None,
+                         section: Optional[str] = None) -> str:
         """
-        Returns a (potential multi-line) string with an Org mode heading that is generated 
+        Returns a (potential multi-line) string with an Org mode heading that is generated
         from the data within the parameters given.
 
         The only mandatory parameter is the level of the heading since '** ' is a valid heading.
@@ -557,6 +574,8 @@ class OrgFormat(object):
         @param priority: is a priority cookie, a single letter - which will then preceded by a hash sign # and enclosed within square brackets.
         @param title: can be made of any character but a new line.
         @param tags: a list of valid tags without colons
+        @param scheduled_timestamp: a string with a formatted date- or time-stamp
+        @param deadline_timestamp: a string with a formatted date- or time-stamp
         @param properties: a list of name/value tuples
         @param section: the body of this heading
         @param return: the generated Org mode heading
@@ -571,14 +590,27 @@ class OrgFormat(object):
             result += title
         if tags:
             result += '  :' + ':'.join(tags) + ':'
+
         result += '\n'
+
+        if scheduled_timestamp:
+            result += 'SCHEDULED: ' + scheduled_timestamp
+            if deadline_timestamp:
+                result += ' '
+        if deadline_timestamp:
+            result += 'DEADLINE: ' + deadline_timestamp
+        if scheduled_timestamp or deadline_timestamp:
+            result += '\n'
+
         if properties:
             result += ':PROPERTIES:\n'
             for myproperty in properties:
                 result += ':' + myproperty[0] + ': ' + myproperty[1] + '\n'
             result += ':END:\n'
+
         if section:
             result += '\n' + section.rstrip() + '\n'
+
         return result
 
 # Local Variables:
