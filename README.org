@@ -1,13 +1,79 @@
 * orgformat
 
 This is a utility library for providing functions to generate and
-modify [[https://orgmode.org][Org mode]] syntax elements like [[https://orgmode.org/manual/External-links.html][links]], [[https://orgmode.org/manual/Timestamps.html#Timestamps][time-stamps]], or
+modify [[https://orgmode.org][Org mode]] syntax elements like [[https://orgmode.org/manual/Headlines.html#Headlines][headings]], [[https://orgmode.org/manual/External-links.html][links]], [[https://orgmode.org/manual/Timestamps.html#Timestamps][time-stamps]], or
 date-stamps.
 
 ** Documentation
 
 You can find the [[http://htmlpreview.github.io/?https://github.com/novoid/orgformat/blob/master/orgformat.html][pydoc documentation in HTML here]]. Sorry for the
 default colors of pydoc.
+
+I also consider [[file:orgformat/orgformat_test.py][the unit tests as a good starting point]] to learn about
+the features provided.
+
+Just *a few* examples:
+
+#+BEGIN_SRC python
+        self.assertEqual(OrgFormat.orgmode_timestamp_to_datetime(
+            '<1980-12-31 Wed 23:59>'),
+                         datetime.datetime(1980, 12, 31, 23, 59, 0, tzinfo=None))
+
+        self.assertEqual(OrgFormat.apply_timedelta_to_org_timestamp(
+            '<2019-11-06 Wed 00:59>', -2.0), '<2019-11-05 Tue 22:59>')
+
+        self.assertEqual(OrgFormat.date(time.strptime('2011-11-02T20:38', '%Y-%m-%dT%H:%M'), 
+                                        inactive=False,
+                                        repeater_or_delay='+2w '),
+                         '<2011-11-02 Wed +2w>')
+
+        self.assertEqual(
+            OrgFormat.daterange_autodetect_time(
+                time.strptime('2011-11-29', '%Y-%m-%d'),
+                time.strptime('2011-11-30T23:59', '%Y-%m-%dT%H:%M'), inactive=True),
+            '[2011-11-29 Tue 00:00]--[2011-11-30 Wed 23:59]')
+
+        self.assertEqual(OrgFormat.strdate('2011-11-03T23:59'), '<2011-11-03 Thu>')
+        self.assertEqual(OrgFormat.strdate('2011-11-30 21:06', show_time=True, repeater_or_delay=' +7y   '),
+                         '<2011-11-30 Wed 21:06 +7y>')
+
+        self.assertEqual(OrgFormat.parse_extended_iso_datetime("2011-1-2T3:4:5"),
+                         time.strptime('2011-01-02 03.04.05', '%Y-%m-%d %H.%M.%S'))
+
+
+        self.assertEqual(
+            OrgFormat.date(
+                OrgFormat.parse_basic_iso_datetime('20111219T205510Z'), True
+            ),
+            '<2011-12-19 Mon 21:55>'
+        )
+
+        self.assertEqual(OrgFormat.mailto_link('Bob@example.com'),
+                         '[[mailto:Bob@example.com][Bob@example.com]]')
+
+        self.assertEqual(OrgFormat.dhms_from_sec(99999), '1d 3:46:39')
+
+        self.assertEqual(OrgFormat.generate_heading(level=1,
+                                                    keyword='TODO',
+                                                    priority='A',
+                                                    title='This is my title',
+                                                    tags=['foo', 'bar_baz'],
+                                                    scheduled_timestamp='<2019-12-29 Sun 11:35>',
+                                                    deadline_timestamp='<2019-12-30 Mon 23:59>',
+                                                    properties=[('CREATED', OrgFormat.strdate('2011-11-03 23:59', inactive=True, show_time=True)),
+                                                                ('myproperty','foo bar baz')],
+                                                    section=' With this being\nthe content of the heading section.'),
+'''* TODO [#A] This is my title  :foo:bar_baz:
+SCHEDULED: <2019-12-29 Sun 11:35> DEADLINE: <2019-12-30 Mon 23:59>
+:PROPERTIES:
+:CREATED: [2011-11-03 Thu 23:59]
+:myproperty: foo bar baz
+:END:
+
+ With this being
+the content of the heading section.
+''')
+#+END_SRC
 
 ** Installation
 
