@@ -122,6 +122,8 @@ As of 2019-10-31, this file is moved to an independent library since
 multiple projects are using its functions such as:
 
 - [[https://github.com/novoid/lazyblorg][lazyblorg]]
+- [[https://github.com/novoid/appendorgheading][appendorgheading]] is basically a Python wrapper script for
+  =generate_headining()= to be used from command line
 
 ** How to Thank Me
 

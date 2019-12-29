@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-12-29 11:58:22 vk>
+# Time-stamp: <2019-12-29 23:46:09 vk>
 
 import time
 import datetime
@@ -566,6 +566,9 @@ class OrgFormat(object):
         The only mandatory parameter is the level of the heading since '** ' is a valid heading.
 
         No content or syntax validation is done here yet (FIXXME).
+
+        Note: There is a Python wrapper script to use this method from command line:
+        https://github.com/novoid/appendorgheading
 
         Parameter names are taken from https://orgmode.org/worg/dev/org-syntax.html if applicable:
 
