@@ -28,8 +28,8 @@ project and installed when you do invoke:
 This changelog does not list all commits/changes, just the substantial
 ones.
 
-- 2019-11-03: Finished moving from Memacs and lazyblorg to a separate library
-- 2019-11-06:
+- 2019.11.03.1: Finished moving from Memacs and lazyblorg to a separate library
+- 2019.11.06.1:
   - [[https://www.python.org/dev/peps/pep-0484/][Python type annotations]] added for [[https://mypy.readthedocs.io/en/latest/index.html][mypy]] checks
   - Refactoring, simplification, unification:
     - more parameters for =show_time= and =inactive=
@@ -42,7 +42,10 @@ ones.
     (the only projects using this library so far) were adapted
     accordingly and therefore nobody else is affected. *No breaking
     changes like this in the future.*
-- 2019-12-28: =generate_heading()=
+- 2019.12.28.1: =generate_heading()=
+- 2019.12.29.1:
+  - =date()=, =strdate()=: added =repeater_or_delay=
+  - =generate_headining()=: added =scheduled_timestamp= and =deadline_timestamp=
 
 ** History
 
