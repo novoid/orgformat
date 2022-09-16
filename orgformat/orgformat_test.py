@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Time-stamp: <2019-12-29 11:59:19 vk>
 
 import unittest
 import time
@@ -18,10 +17,21 @@ class TestOrgFormat(unittest.TestCase):
         self.assertEqual(OrgFormat.orgmode_timestamp_to_datetime(
             '[1980-12-31 Wed 23:59]'),
                          datetime.datetime(1980, 12, 31, 23, 59, 0, tzinfo=None))
+        self.assertEqual(OrgFormat.orgmode_timestamp_to_datetime(
+            '<2040-01-01 00:49>'),
+                         datetime.datetime(2040,  1,  1,  0, 49, 0, tzinfo=None))
+        self.assertEqual(OrgFormat.orgmode_timestamp_to_datetime(
+            '[2040-01-01 Mo]'),
+                         datetime.datetime(2040,  1,  1,  0,  0, 0, tzinfo=None))
+        self.assertEqual(OrgFormat.orgmode_timestamp_to_datetime(
+            '<2040-01-01>'),
+                         datetime.datetime(2040,  1,  1,  0,  0, 0, tzinfo=None))
         with self.assertRaises(TimestampParseException):
             OrgFormat.orgmode_timestamp_to_datetime('foobar')
         with self.assertRaises(TimestampParseException):
-            OrgFormat.orgmode_timestamp_to_datetime('<1980-12-31 23:59>')  # missing day of week
+            OrgFormat.orgmode_timestamp_to_datetime('<1980-12-31 12>')
+        with self.assertRaises(TimestampParseException):
+            OrgFormat.orgmode_timestamp_to_datetime('<1980-12-31 Bla>')
 
     def test_apply_timedelta_to_org_timestamp(self):
         self.assertEqual(OrgFormat.apply_timedelta_to_org_timestamp(

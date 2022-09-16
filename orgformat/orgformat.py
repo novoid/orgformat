@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # Find much more example calls in the unit test file orgformat_test.py
 # -*- coding: utf-8; mode: python; -*-
-# Time-stamp: <2019-12-29 23:46:09 vk>
 
 import time
 import datetime
@@ -32,17 +31,20 @@ class OrgFormat(object):
 
     # FIXXME: this regular expression contains only English and German weekday names so far.
     # If this gets an issue, replace weekdays with 2-3 arbitrary characters or similar.
-    SINGLE_ORGMODE_TIMESTAMP = "([<\[]([12]\d\d\d)-([012345]\d)-([012345]\d) " + \
-        "(Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mo|Di|Mi|Do|Fr|Sa|So|Mon|Die|Mit|Don|Fre|Sam|Son) " + \
-        "(([01]\d)|(20|21|22|23)):([012345]\d)[>\]])"
+    SINGLE_ORGMODE_TIMESTAMP = "([<\\[]" + \
+        "([12]\\d\\d\\d)-([012345]\\d)-([012345]\\d)" + \
+        "( (Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mo|Di|Mi|Do|Fr|Sa|So|Mon|Die|Mit|Don|Fre|Sam|Son))?" + \
+        "( (([01]\\d)|(20|21|22|23)):([012345]\\d))?" + \
+        "[>\\]])"
+    TIMESTAMP_MATCH_GROUPS = 12
 
     ORGMODE_TIMESTAMP_REGEX = re.compile(SINGLE_ORGMODE_TIMESTAMP + "$")
 
     ORGMODE_TIMESTAMP_RANGE_REGEX = re.compile(
         SINGLE_ORGMODE_TIMESTAMP + "-(-)?" + SINGLE_ORGMODE_TIMESTAMP + "$")
 
-    ISODATETIME_REGEX = re.compile('([12]\d\d\d-[012345]\d?-([012345]\d?))' +
-                                   '([T ]((\d\d?[:.][012345]\d?)([:.][012345]\d?)?))?')
+    ISODATETIME_REGEX = re.compile('([12]\\d\\d\\d-[012345]\\d?-([012345]\\d?))' +
+                                   '([T ]((\\d\\d?[:.][012345]\\d?)([:.][012345]\\d?)?))?')
 
     @staticmethod
     def orgmode_timestamp_to_datetime(orgtime: str) -> datetime.datetime:
@@ -71,18 +73,18 @@ class OrgFormat(object):
         year = int(components.group(2))    # type: ignore  # FIXXME why
         month = int(components.group(3))   # type: ignore  # FIXXME why
         day = int(components.group(4))     # type: ignore  # FIXXME why
-        hour = int(components.group(6))    # type: ignore  # FIXXME why
-        minute = int(components.group(9))  # type: ignore  # FIXXME why
+        hour = int(components.group(8) or "0")    # type: ignore  # FIXXME why
+        minute = int(components.group(11) or "0") # type: ignore  # FIXXME why
 
         return datetime.datetime(year, month, day, hour, minute, 0)
 
     @staticmethod
     def apply_timedelta_to_org_timestamp(orgtime: str, deltahours: Union[int, float]) -> str:
         """
-        Returns a string containing an Org mode time-stamp which got
-        added the given delta hours. It works also for a time-stamp range
-        which uses two strings <YYYY-MM-DD Sun HH:MM> concatenated
-        with one or two dashes.
+        Returns a string containing an Org mode time-stamp
+        with the given delta hours added.
+        Also works for a time-stamp range which uses two strings <YYYY-MM-DD Sun HH:MM>
+        concatenated with one or two dashes.
 
         OrgFormat.apply_timedelta_to_org_timestamp('<2019-11-05 Tue 23:59>', 1)
         -> '<2019-11-06 Wed 00:59>'
@@ -111,7 +113,7 @@ class OrgFormat(object):
                 "--" + \
                 OrgFormat.date(
                     OrgFormat.orgmode_timestamp_to_datetime(  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
-                        range_components.groups(0)[10]) +  # type: ignore  # FIXXME why
+                        range_components.groups(0)[OrgFormat.TIMESTAMP_MATCH_GROUPS]) +  # type: ignore  # FIXXME why
                     datetime.timedelta(0, 0, 0, 0, 0, deltahours), show_time=True, inactive=False)
         else:
             return OrgFormat.date(OrgFormat.orgmode_timestamp_to_datetime(orgtime) +  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
