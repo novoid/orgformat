@@ -16,7 +16,7 @@ setup(
     download_url="https://github.com/novoid/orgformat/zipball/master",
     keywords=["orgmode", "datestamps", "timestamps", "links"],
     packages=find_packages(),
-    #install_requires=["pyreadline", "clint"],  # add dependencies if they are included in the code
+    #install_requires=["pyreadline3", "clint"],  # add dependencies if they are included in the code
     classifiers=[
         "Programming Language :: Python :: 3 :: Only",
         "Development Status :: 5 - Production/Stable",
