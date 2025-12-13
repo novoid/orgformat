@@ -31,11 +31,11 @@ class OrgFormat(object):
 
     # FIXXME: this regular expression contains only English and German weekday names so far.
     # If this gets an issue, replace weekdays with 2-3 arbitrary characters or similar.
-    SINGLE_ORGMODE_TIMESTAMP = "([<\\[]" + \
-        "([12]\\d\\d\\d)-([012345]\\d)-([012345]\\d)" + \
-        "( (Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mo|Di|Mi|Do|Fr|Sa|So|Mon|Die|Mit|Don|Fre|Sam|Son))?" + \
-        "( (([01]\\d)|(20|21|22|23)):([012345]\\d))?" + \
-        "[>\\]])"
+    SINGLE_ORGMODE_TIMESTAMP = r"([<\[]" + \
+        r"([12]\d\d\d)-([012345]\d)-([012345]\d)" + \
+        r"( (Mon|Tue|Wed|Thu|Fri|Sat|Sun|Mo|Di|Mi|Do|Fr|Sa|So|Mon|Die|Mit|Don|Fre|Sam|Son))?" + \
+        r"( (([01]\d)|(20|21|22|23)):([012345]\d))?" + \
+        r"[>\]])"
     TIMESTAMP_MATCH_GROUPS = 12
 
     ORGMODE_TIMESTAMP_REGEX = re.compile(SINGLE_ORGMODE_TIMESTAMP + "$")
@@ -43,8 +43,8 @@ class OrgFormat(object):
     ORGMODE_TIMESTAMP_RANGE_REGEX = re.compile(
         SINGLE_ORGMODE_TIMESTAMP + "-(-)?" + SINGLE_ORGMODE_TIMESTAMP + "$")
 
-    ISODATETIME_REGEX = re.compile('([12]\\d\\d\\d-[012345]\\d?-([012345]\\d?))' +
-                                   '([T ]((\\d\\d?[:.][012345]\\d?)([:.][012345]\\d?)?))?')
+    ISODATETIME_REGEX = re.compile(r'([12]\d\d\d-[012345]\d?-([012345]\d?))' +
+                                   r'([T ]((\d\d?[:.][012345]\d?)([:.][012345]\d?)?))?')
 
     @staticmethod
     def orgmode_timestamp_to_datetime(orgtime: str) -> datetime.datetime:
