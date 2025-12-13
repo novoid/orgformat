@@ -1,0 +1,32 @@
+[project]
+name = "orgformat"
+version = "2025.12.13.1"
+description = "Utility library for providing functions to generate and modify Org mode syntax elements like links, time-stamps, or date-stamps."
+#readme = "README.org"
+readme = {text = """
+Read https://github.com/novoid/orgformat/blob/master/README.org
+""", content-type = "text/plain"}
+keywords= ["orgmode", "datestamps", "timestamps", "links"]
+authors = [{name="Karl Voit", email="tools@Karl-Voit.at"}]
+license = {file = "LICENSE.txt"}
+requires-python = ">=3.13"
+dependencies = []
+
+# sequence along https://pypi.org/classifiers
+    classifiers=[
+        "Programming Language :: Python :: 3 :: Only",
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Console",
+        "Intended Audience :: End Users/Desktop",
+        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "Operating System :: OS Independent",
+        ]
+
+[project.urls]
+Homepage = "https://github.com/novoid/orgformat"
+Repository = "https://github.com/novoid/orgformat"
+Issues = "https://github.com/novoid/orgformat/issues"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
