@@ -8,3 +8,4 @@ orgformat.egg-info/
 .mypy_cache/
 orgformat/.mypy_cache/
 publish_via_uv.sh
+update_mypi.sh
