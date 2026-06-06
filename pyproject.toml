@@ -1,6 +1,6 @@
 [project]
 name = "orgformat"
-version = "2026.03.01.1"
+version = "2026.06.06.1"
 description = "Utility library for providing functions to generate and modify Org mode syntax elements like links, time-stamps, or date-stamps."
 #readme = "README.org"
 #readme = {text = """
