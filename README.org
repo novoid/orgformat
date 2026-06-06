@@ -89,6 +89,10 @@ project and installed when you do invoke:
 
 : pip3 install -r requirements.txt
 
+# --- BEGIN SHARED: 0dependencies --- see https://github.com/novoid/screencasts/
+[[https://0dependencies.dev][https://0dependencies.dev/0dependencies.svg]] → [[https://0dependencies.dev/][learn more about 0dependencies]]
+# --- END SHARED: 0dependencies --- see https://github.com/novoid/screencasts/  
+
 ** Changelog
 
 This changelog does not list all commits/changes, just the substantial
@@ -127,6 +131,7 @@ multiple projects are using its functions such as:
 
 * How to Thank Me
 # --- BEGIN SHARED: how_to_thank_me --- see https://github.com/novoid/screencasts/
+
 I'm glad if you like my tool. I've got way more projects on:
 
 - [[https://github.com/novoid/][GitHub]] (oldest projects),
