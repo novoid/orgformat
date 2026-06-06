@@ -2,7 +2,8 @@
 set -o errexit
 
 # result goes to: orgformat.html
-pydoc3.5 -w orgformat/orgformat.py
-sed -i 's#/home/vk/frankie/src/##g' orgformat.html
+uv run python -m pydoc -w orgformat/orgformat.py
+# strip the local absolute path so the generated HTML stays portable:
+sed -i "s#$(pwd)/##g" orgformat.html
 
 #end

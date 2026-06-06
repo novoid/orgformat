@@ -70,11 +70,11 @@ class OrgFormat(object):
                                           "HH:MM>\" (including inactive ones): \"" +
                                           orgtime + "\"")
 
-        year = int(components.group(2))    # type: ignore  # FIXXME why
-        month = int(components.group(3))   # type: ignore  # FIXXME why
-        day = int(components.group(4))     # type: ignore  # FIXXME why
-        hour = int(components.group(8) or "0")    # type: ignore  # FIXXME why
-        minute = int(components.group(11) or "0") # type: ignore  # FIXXME why
+        year = int(components.group(2))
+        month = int(components.group(3))
+        day = int(components.group(4))
+        hour = int(components.group(8) or "0")
+        minute = int(components.group(11) or "0")
 
         return datetime.datetime(year, month, day, hour, minute, 0)
 
@@ -107,16 +107,16 @@ class OrgFormat(object):
 
         if range_components:
             return OrgFormat.date(
-                OrgFormat.orgmode_timestamp_to_datetime(  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
-                    range_components.groups(0)[0]) +  # type: ignore  # FIXXME why
+                OrgFormat.orgmode_timestamp_to_datetime(
+                    range_components.groups("")[0]) +
                 datetime.timedelta(0, 0, 0, 0, 0, deltahours), show_time=True, inactive=False) + \
                 "--" + \
                 OrgFormat.date(
-                    OrgFormat.orgmode_timestamp_to_datetime(  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
-                        range_components.groups(0)[OrgFormat.TIMESTAMP_MATCH_GROUPS]) +  # type: ignore  # FIXXME why
+                    OrgFormat.orgmode_timestamp_to_datetime(
+                        range_components.groups("")[OrgFormat.TIMESTAMP_MATCH_GROUPS]) +
                     datetime.timedelta(0, 0, 0, 0, 0, deltahours), show_time=True, inactive=False)
         else:
-            return OrgFormat.date(OrgFormat.orgmode_timestamp_to_datetime(orgtime) +  # type: ignore  # FIXXME why? Argument 1 to "datetime" of "OrgFormat" has incompatible type "datetime"; expected "struct_time"
+            return OrgFormat.date(OrgFormat.orgmode_timestamp_to_datetime(orgtime) +
                                   datetime.timedelta(0, 0, 0, 0, 0, deltahours),
                                   show_time=True, inactive=False)
 
